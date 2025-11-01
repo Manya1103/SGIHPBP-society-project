@@ -31,6 +31,7 @@ class APIClient {
   async getContent(key) {
     return this.request(`/content/${key}`)
   }
+  
 
   async updateContent(key, value) {
     return this.request(`/content/${key}`, {
