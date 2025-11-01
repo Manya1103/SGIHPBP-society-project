@@ -1,4 +1,6 @@
-const PresidentSection = ({ setCurrentPage }) => {
+import { Link } from 'react-router-dom'
+
+const PresidentSection = () => {
   return (
     <section className="py-16 lg:py-24 bg-background-light dark:bg-primary">
       <div className="container mx-auto px-4 lg:px-6">
@@ -24,13 +26,12 @@ const PresidentSection = ({ setCurrentPage }) => {
             <p className="text-gray-600 dark:text-gray-200 mb-6 leading-relaxed">
               "It gives me great pleasure to extend a warm welcome to all members and colleagues to the Society of Gastrointestinal and Hepatopancreatobiliary Pathologists (SGIHPBPs), of India. Our Society has been established with the vision of advancing the discipline of gastrointestinal and Hepatopancreatobiliary pathology in our country, a field that lies at the crossroads of clinical medicine, surgery, and research."
             </p>
-            <a 
-              className="inline-block text-primary font-bold py-3 px-8 rounded bg-yellow-500 dark:hover:bg-gold-light transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5" 
-              href="#"
-              onClick={(e) => { e.preventDefault(); setCurrentPage('president-message'); }}
+            <Link 
+              to="/president-message"
+              className="inline-block text-primary font-bold py-3 px-8 rounded bg-yellow-500 dark:hover:bg-gold-light transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
               Read Full Message
-            </a>
+            </Link>
           </div>
         </div>
       </div>

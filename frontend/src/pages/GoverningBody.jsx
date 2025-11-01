@@ -90,18 +90,18 @@ const GoverningBody = () => {
       <main className="flex-1">
         <div className="container mx-auto px-4 py-12 md:py-20">
           <div className="mx-auto max-w-6xl">
-            <div className="mb-12 text-center">
+            {/* <div className="mb-12 text-center">
               <h1 className="text-primary dark:text-white text-4xl md:text-5xl font-black tracking-tighter">
                 Governing Body
               </h1>
-            </div>
+            </div> */}
 
             {/* Office Bearers Section */}
             <section className="mb-16">
               <div className="relative mb-8 text-center">
-                <h2 className="text-primary dark:text-white text-2xl md:text-3xl font-bold tracking-tight">
+                <h1 className="text-primary dark:text-white text-3xl md:text-4xl font-bold tracking-tight">
                   Office Bearers
-                </h2>
+                </h1>
                 <div className="absolute inset-x-0 bottom-[-8px] mx-auto h-0.5 w-20 bg-gold-DEFAULT"></div>
               </div>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -116,7 +116,7 @@ const GoverningBody = () => {
             {/* Governing Body Members Section */}
             <section className="mb-16">
               <div className="relative mb-8 text-center">
-                <h2 className="text-primary dark:text-white text-2xl md:text-3xl font-bold tracking-tight">
+                <h2 className="text-primary dark:text-white text-3xl md:text-4xl font-bold tracking-tight">
                   Governing Body Members
                 </h2>
                 <div className="absolute inset-x-0 bottom-[-8px] mx-auto h-0.5 w-20 bg-gold-DEFAULT"></div>
@@ -131,7 +131,7 @@ const GoverningBody = () => {
             {/* National Advisors Section */}
             <section className="mb-16">
               <div className="relative mb-8 text-center">
-                <h2 className="text-primary dark:text-white text-2xl md:text-3xl font-bold tracking-tight">
+                <h2 className="text-primary dark:text-white text-3xl md:text-4xl font-bold tracking-tight">
                   National Advisors
                 </h2>
                 <div className="absolute inset-x-0 bottom-[-8px] mx-auto h-0.5 w-20 bg-gold-DEFAULT"></div>
@@ -146,7 +146,7 @@ const GoverningBody = () => {
             {/* International Advisors Section */}
             <section>
               <div className="relative mb-8 text-center">
-                <h2 className="text-primary dark:text-white text-2xl md:text-3xl font-bold tracking-tight">
+                <h2 className="text-primary dark:text-white text-3xl md:text-4xl font-bold tracking-tight">
                   International Advisors
                 </h2>
                 <div className="absolute inset-x-0 bottom-[-8px] mx-auto h-0.5 w-20 bg-gold-DEFAULT"></div>

@@ -128,7 +128,7 @@ const Membership = () => {
               </div>
 
               {/* Membership Application Section */}
-              <div className="mt-24 pt-16 border-t border-border-light dark:border-border-dark" id="application-form">
+              {/* <div className="mt-24 pt-16 border-t border-border-light dark:border-border-dark" id="application-form">
                 <h2 className="text-3xl font-display font-bold text-text-light dark:text-heading-dark text-center mb-10">
                   Membership Application
                 </h2>
@@ -145,7 +145,7 @@ const Membership = () => {
                     </span>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>

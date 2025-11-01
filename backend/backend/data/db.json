@@ -10,9 +10,9 @@
     "secretary_message": "It is with great pleasure that I welcome you to our official website. As a society, we are committed to pushing the boundaries of knowledge in GI and HPB pathology. This platform is a testament to our dedication to collaboration, education, and innovation. We invite you to explore, engage, and be a part of our growing community.",
     "vision_text": "Our vision is to create a future where knowledge and understanding of Gastrointestinal and Hepatobiliary disorders are widespread, and where patients receive the highest quality care through a well-trained and informed network of professionals.",
     "contact_office_name": "SGIHPBPs Registered Office",
-    "contact_address": "Department of Pathology, Tata Memorial Hospital, Parel, Mumbai, Maharashtra, 400012",
-    "contact_phone": "+91 22 2417 7000",
-    "contact_email": "contact@sgihpbps.org"
+    "contact_address": "78, LD Block, PITAMPURA, New Delhi-110034",
+    "contact_phone": "",
+    "contact_email": ""
   },
   "contacts": [
     {
@@ -23,15 +23,6 @@
       "message": "society",
       "createdAt": "2025-10-31T18:17:58.993Z",
       "status": "read"
-    },
-    {
-      "id": "zvGIKTboin3RRDs-LmeOv",
-      "name": "abc",
-      "email": "xyz@gmail.com",
-      "subject": "abcdefg",
-      "message": "abcdefg",
-      "createdAt": "2025-10-31T22:05:00.056Z",
-      "status": "unread"
     }
   ],
   "membershipApplications": [],

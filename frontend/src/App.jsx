@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 import GoverningBody from './pages/GoverningBody'
@@ -8,40 +8,29 @@ import Membership from './pages/Membership'
 import AcademicsEvents from './pages/AcademicsEvents'
 import Publications from './pages/Publications'
 import ContactUs from './pages/ContactUs'
-import Admin from './pages/Admin'
+// import Admin from './pages/Admin'
 import PresidentMessage from './pages/PresidentMessage'
+import ScrollToTop from './components/ScrollToTop'
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home')
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'governing-body':
-        return <GoverningBody />
-      case 'about-us':
-        return <AboutUs />
-      case 'secretary-message':
-        return <SecretaryMessage />
-      case 'president-message':
-        return <PresidentMessage />
-      case 'membership':
-        return <Membership />
-      case 'academics-events':
-        return <AcademicsEvents />
-      case 'publications':
-        return <Publications />
-      case 'contact-us':
-        return <ContactUs />
-      case 'admin':
-        return <Admin />
-      default:
-        return <Home setCurrentPage={setCurrentPage} />
-    }
-  }
+  const location = useLocation()
+  const currentPage = location.pathname.slice(1) || 'home'
 
   return (
-    <Layout currentPage={currentPage} setCurrentPage={setCurrentPage}>
-      {renderPage()}
+    <Layout currentPage={currentPage}>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/governing-body" element={<GoverningBody />} />
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/secretary-message" element={<SecretaryMessage />} />
+        <Route path="/president-message" element={<PresidentMessage />} />
+        <Route path="/membership" element={<Membership />} />
+        <Route path="/academics-events" element={<AcademicsEvents />} />
+        <Route path="/publications" element={<Publications />} />
+        <Route path="/contact-us" element={<ContactUs />} />
+        {/* <Route path="/admin" element={<Admin />} /> */}
+      </Routes>
     </Layout>
   )
 }

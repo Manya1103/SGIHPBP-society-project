@@ -13,12 +13,13 @@ const AboutUs = () => {
         </p>
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-        {/* Left Column */}
-        <div className="space-y-12">
+      {/* Main Content Sections - Swapped Layout */}
+      <div className="space-y-12">
+
+        {/* First Row: Mission & Role */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Our Mission */}
-          <div className="bg-secondary-light dark:bg-secondary-dark p-8 rounded-lg shadow-sm">
+          <div className="bg-secondary-light dark:bg-secondary-dark p-8 rounded-lg shadow-sm h-full flex flex-col">
             <h2 className="text-3xl font-bold font-display text-accent-blue dark:text-white mb-4">
               Our Mission
             </h2>
@@ -27,21 +28,8 @@ const AboutUs = () => {
             </p>
           </div>
 
-          {/* Our Vision */}
-          <div className="bg-secondary-light dark:bg-secondary-dark p-8 rounded-lg shadow-sm">
-            <h2 className="text-3xl font-bold font-display text-accent-blue dark:text-white mb-4">
-              Our Vision
-            </h2>
-            <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">
-             Our vision is to create a future where knowledge and understanding of Gastrointestinal and Hepatobiliary disorders are widespread, and where patients receive the highest quality care through a well-trained and informed network of professionals. We aim to build strong collaborations with national and international organizations, facilitate innovative research, and develop infrastructure to support our objectives. By nurturing emerging talents and continuously improving educational standards, we aspire to be a leading force in enhancing healthcare outcomes and supporting communities during times of need.
-            </p>
-          </div>
-        </div>
-
-        {/* Right Column */}
-        <div className="space-y-12">
-          {/* Our Role */}
-          <div className="bg-secondary-light dark:bg-secondary-dark p-8 rounded-lg shadow-sm">
+          {/* Our Role (Moved Up) */}
+          <div className="bg-secondary-light dark:bg-secondary-dark p-8 rounded-lg shadow-sm h-full flex flex-col">
             <h2 className="text-3xl font-bold font-display text-accent-blue dark:text-white mb-4">
               Our Role
             </h2>
@@ -54,12 +42,24 @@ const AboutUs = () => {
                 <li>• Facilitating training and research in collaboration with eminent international societies to encourage young anatomic pathologists to work in this field.</li>
                 <li>• To collaborate and work together with international societies of gastroenterology, hepatology, gastrointestinal pathology and Hepatopancreatobiliary pathology in the best possible manner.</li>
               </ul>
-
             </div>
           </div>
+        </div>
 
+        {/* Second Row: Vision & Constitution */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {/* Our Vision (Moved Down) */}
+          <div className="bg-secondary-light dark:bg-secondary-dark p-8 rounded-lg shadow-sm h-full flex flex-col">
+            <h2 className="text-3xl font-bold font-display text-accent-blue dark:text-white mb-4">
+              Our Vision
+            </h2>
+            <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+             Our vision is to create a future where knowledge and understanding of Gastrointestinal and Hepatobiliary disorders are widespread, and where patients receive the highest quality care through a well-trained and informed network of professionals. We aim to build strong collaborations with national and international organizations, facilitate innovative research, and develop infrastructure to support our objectives. By nurturing emerging talents and continuously improving educational standards, we aspire to be a leading force in enhancing healthcare outcomes and supporting communities during times of need.
+            </p>
+          </div>
+          
           {/* Our Constitution */}
-          <div className="bg-accent-blue dark:bg-secondary-dark p-8 rounded-lg shadow-sm text-center">
+          <div className="bg-accent-blue dark:bg-secondary-dark p-8 rounded-lg shadow-sm h-full flex flex-col">
             <h2 className="text-3xl font-bold font-display text-white mb-4">
               Our Constitution
             </h2>
@@ -70,7 +70,7 @@ const AboutUs = () => {
               members to familiarize themselves with this important document.
             </p>
             <button 
-              className="inline-flex items-center justify-center px-8 py-3 text-accent-blue font-bold rounded-md bg-[#D4AF37] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background-dark"
+              className="inline-flex items-center justify-center px-8 py-3 text-accent-blue font-bold rounded-md bg-[#D4AF37] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background-dark mt-auto"
               onClick={() => {
                 const link = document.createElement('a');
                 link.href = 'http://localhost:4000/api/constitution/download';
@@ -82,6 +82,7 @@ const AboutUs = () => {
             </button>
           </div>
         </div>
+
       </div>
     </main>
     // </Layout>

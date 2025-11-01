@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom'
 import DrPrasenjitDas from '../../assets/Dr-Prasenjit-Das,-Secrertary-General.jpg';
 
-const SecretarySection = ({ setCurrentPage }) => {
+const SecretarySection = () => {
   return (
     <section className="py-16 lg:py-24 bg-white dark:bg-background-dark">
       <div className="container mx-auto px-4 lg:px-6">
@@ -30,13 +31,12 @@ const SecretarySection = ({ setCurrentPage }) => {
             <p className="text-gray-600 dark:text-gray-200 mb-6 leading-relaxed">
               "I am deeply honored to serve as the Secretary General of the Society of Gastrointestinal and Hepatopancreatobiliary Pathologists of India (SGIHPBPs). I am committed to advancing our society in alignment with our core mission of training, collaboration, research, and academic excellence."
             </p>
-            <a
+            <Link
+              to="/secretary-message"
               className="inline-block text-primary font-bold py-3 px-8 rounded bg-yellow-500 dark:hover:bg-gold-light transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-              href="#"
-              onClick={(e) => { e.preventDefault(); setCurrentPage('secretary-message'); }}
             >
               Read Full Message
-            </a>
+            </Link>
           </div>
         </div>
       </div>

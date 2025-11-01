@@ -4,13 +4,13 @@ import PresidentSection from '../components/sections/PresidentSection'
 import SecretarySection from '../components/sections/SecretarySection'
 import QuickLinksSection from '../components/sections/QuickLinksSection'
 
-const Home = ({ setCurrentPage }) => {
+const Home = () => {
   return (
     <main>
       <HeroSection />
-      <MissionSection setCurrentPage={setCurrentPage} />
-      <PresidentSection setCurrentPage={setCurrentPage} />
-      <SecretarySection setCurrentPage={setCurrentPage} />
+      <MissionSection />
+      <PresidentSection />
+      <SecretarySection />
       <QuickLinksSection />
     </main>
   )
