@@ -97,7 +97,7 @@ const Header = ({ currentPage }) => {
             className="lg:hidden text-primary dark:text-white"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <span className="material-icons-outlined"></span> {/*menu*/}
+            <span className="material-icons-outlined">mmenu</span> {/*menu*/}
           </button>
         </div>
       </nav>
