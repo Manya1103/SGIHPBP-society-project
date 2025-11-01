@@ -7,7 +7,7 @@ const PresidentMessage = () => {
                     <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8 mb-12 pb-12 border-b border-border-light dark:border-border-dark">
                         <div className="flex-shrink-0">
                             <img
-                                className="w-40 h-40 rounded-full object-cover shadow-lg border-4 border-gold"
+                                className="w-40 h-40 rounded-full object-contain shadow-lg border-4 border-gold"
                             // src={DrPujaSakhuja}
                             />
                         </div>

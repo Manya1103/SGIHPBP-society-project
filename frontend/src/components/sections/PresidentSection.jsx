@@ -7,7 +7,7 @@ const PresidentSection = () => {
         <div className="flex flex-col md:flex-row-reverse items-center gap-8 lg:gap-12">
           <div className="md:w-1/3 text-center">
             <img 
-              className="w-64 h-64 rounded-full mx-auto object-contain border-4 border-gold-DEFAULT shadow-xl" 
+              className="w-64 h-64 rounded-full mx-auto object-contain border-4 border-gold shadow-xl" 
               // src={DrPujaSakhuja}
             />
             <h3 className="font-display text-2xl font-bold text-primary dark:text-white mt-6">

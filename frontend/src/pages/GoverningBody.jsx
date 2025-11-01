@@ -72,7 +72,7 @@ const GoverningBody = () => {
         <div className={`${isOfficer ? 'w-32 h-32 mb-4' : 'w-24 h-24 mb-4'} mx-auto`}>
           <img
             src={member.image}
-            className="w-full h-full rounded-full object-contain border-2 border-gold-DEFAULT"
+            className="w-full h-full rounded-full object-contain border-2 border-gold"
           />
         </div>
       )}
