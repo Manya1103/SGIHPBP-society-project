@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import ConstitutionPDF from '../public/constitution.pdf';
 
 const AboutUs = () => {
   return (
@@ -99,7 +100,7 @@ const AboutUs = () => {
             </p>
             &nbsp;
             <motion.a 
-              href="/constitution.pdf" 
+              href={ConstitutionPDF}
               download="SGIHPBPs_Constitution.pdf"
               className="inline-flex items-center justify-center px-8 py-3 text-accent-blue font-bold rounded-md bg-[#D4AF37] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background-dark mt-auto"
               whileHover={{ scale: 1.05, y: -2 }}
