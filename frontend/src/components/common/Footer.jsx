@@ -1,14 +1,45 @@
-import { Link } from 'react-router-dom'
-import Logo from '../../assets/Logo_SGIHPBPS.png'
+import { Link } from 'react-router-dom';
+import Logo from '../../assets/Logo_SGIHPBPS.png';
+import { motion } from 'framer-motion';
 
 const Footer = () => {
+
+  const footerVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+      },
+    },
+  };
+
   return (
-    <footer className="bg-primary text-white">
+    <motion.footer 
+      className="bg-primary text-white"
+      variants={footerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+    >
       <div className="container mx-auto px-4 lg:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
 
           {/* Column 1: Society Info */}
-          <div>
+          <motion.div variants={itemVariants}>
             <div className="flex items-center space-x-3 mb-4">
               <img
                 alt="SGIHPBPs of India Logo"
@@ -20,10 +51,10 @@ const Footer = () => {
             <p className="text-sm text-gray-300">
               The Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists of India.
             </p>
-          </div>
+          </motion.div>
 
           {/* Column 2: About Us */}
-          <div>
+          <motion.div variants={itemVariants}>
             <h3 className="font-display text-lg font-bold mb-4">About Us</h3>
             <ul className="space-y-2 text-sm">
               <li>
@@ -48,10 +79,10 @@ const Footer = () => {
               </li>
 
             </ul>
-          </div>
+          </motion.div>
 
-          {/* Column 3: Quick Links (Updated) */}
-          <div>
+          {/* Column 3: Quick Links */}
+          <motion.div variants={itemVariants}>
             <h3 className="font-display text-lg font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               <li>
@@ -75,26 +106,32 @@ const Footer = () => {
                 </Link>
               </li>
             </ul>
-          </div>
+          </motion.div>
 
-          {/* Column 4: Contact Us */}
-          <div>
-            <h3 className="font-display text-lg font-bold mb-4">Contact us</h3>
-            <p className="text-sm text-gray-300">
-              78, LD Block, PITAMPURA,<br />New Delhi-110034
-            </p>
-            &nbsp;
-            <p className="text-sm text-gray-300">Email: contact@sgihpbps.org</p>
-            <p className="text-sm text-gray-300">Phone: 9873898110</p>
-          </div>
+          {/* Column 4: Contact */}
+          <motion.div variants={itemVariants}>
+            <h3 className="font-display text-lg font-bold mb-4">Contact</h3>
+            <ul className="space-y-2 text-sm">
+              <li className="text-gray-300">
+                78, LD Block, PITAMPURA,<br />New Delhi-110034
+              </li>
+              <li className="text-gray-300">
+                Email: <a href="mailto:contact@sgihpbps.org" className="text-gold-light hover:underline">contact@sgihpbps.org</a>
+              </li>
+              <li className="text-gray-300">
+                Phone: <a href="tel:+919873898110" className="text-gold-light hover:underline">9873898110</a>
+              </li>
+            </ul>
+          </motion.div>
         </div>
 
-        <div className="mt-12 border-t border-blue-800 pt-6 text-center text-sm text-gray-400">
-          <p>© 2024 Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists of India. All Rights Reserved.</p>
+        <div className="border-t border-gray-700 mt-8 pt-6 text-center text-sm text-gray-400">
+          <p>&copy; 2025 Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists of India. All Rights Reserved.</p>
+          
         </div>
       </div>
-    </footer>
+    </motion.footer>
   )
 }
 
-export default Footer
+export default Footer;

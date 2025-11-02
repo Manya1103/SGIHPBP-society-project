@@ -1,23 +1,60 @@
 import React from 'react';
 import Layout from '../components/Layout';
+import { motion } from 'framer-motion'; // 1. Import motion
+
+// 2. Define variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+  },
+};
 
 const Publications = () => {
   return (
     // <Layout>
-      <main className="flex-grow">
+    // 3. Page fade-in transition
+      <motion.main 
+        className="flex-grow"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="container mx-auto max-w-5xl px-4 py-12 sm:py-16">
-          {/* Page Heading */}
-          <div className="mb-12 text-center">
+          {/* 4. Title fade-down */}
+          <motion.div 
+            className="mb-12 text-center"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <h1 className="text-4xl font-black tracking-tighter text-primary dark:text-white sm:text-5xl">
               Publications & Guidelines
             </h1>
             <p className="mx-auto mt-4 max-w-3xl text-lg text-text-muted-light dark:text-text-muted-dark">
               This section hosts society-endorsed guidelines, educational articles, research findings, and other important documents for members and the wider medical community.
             </p>
-          </div>
+          </motion.div>
 
           {/* Filter & Search Bar */}
-          <div className="mb-8 flex flex-col gap-4 sm:flex-row">
+          <motion.div 
+            className="mb-8 flex flex-col gap-4 sm:flex-row"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
             <div className="flex-grow">
               <label className="flex h-12 w-full flex-col">
                 <div className="flex h-full w-full flex-1 items-stretch rounded-lg">
@@ -38,12 +75,20 @@ const Publications = () => {
                 <span className="material-symbols-outlined text-text-muted-light dark:text-text-muted-dark">expand_more</span>
               </button>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Publication Cards */}
-          <div className="grid gap-8">
-            {/* Card 1 */}
-            <div className="flex flex-col items-stretch gap-6 overflow-hidden rounded-xl border border-border-light bg-white p-6 transition-shadow duration-300 hover:shadow-lg dark:border-border-dark dark:bg-background-dark/50 dark:hover:shadow-accent/10 md:flex-row">
+          {/* 5. Stagger container */}
+          <motion.div 
+            className="grid gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {/* 6. Stagger item (on each card) */}
+            <motion.div 
+              className="flex flex-col items-stretch gap-6 overflow-hidden rounded-xl border border-border-light bg-white p-6 transition-shadow duration-300 hover:shadow-lg dark:border-border-dark dark:bg-background-dark/50 dark:hover:shadow-accent/10 md:flex-row"
+              variants={itemVariants}
+            >
               <div className="w-full rounded-lg bg-gray-200 dark:bg-gray-700 md:w-1/3">
                 <img 
                   className="h-full w-full object-cover aspect-video md:aspect-auto rounded-lg" 
@@ -64,15 +109,23 @@ const Publications = () => {
                     A comprehensive set of guidelines developed by a panel of experts to standardize the diagnostic criteria for autoimmune hepatitis across India.
                   </p>
                 </div>
-                <button className="flex h-10 w-fit cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-primary px-4 text-sm font-bold text-white transition-opacity hover:opacity-90">
+                {/* 7. Button hover animation */}
+                <motion.button 
+                  className="flex h-10 w-fit cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-primary px-4 text-sm font-bold text-white transition-opacity"
+                  whileHover={{ scale: 1.05, opacity: 0.9 }}
+                  whileTap={{ scale: 0.95 }}
+                >
                   <span className="truncate">Read More</span>
                   <span className="material-symbols-outlined !text-lg">arrow_forward</span>
-                </button>
+                </motion.button>
               </div>
-            </div>
+            </motion.div>
 
             {/* Card 2 */}
-            <div className="flex flex-col items-stretch gap-6 overflow-hidden rounded-xl border border-border-light bg-white p-6 transition-shadow duration-300 hover:shadow-lg dark:border-border-dark dark:bg-background-dark/50 dark:hover:shadow-accent/10 md:flex-row">
+            <motion.div 
+              className="flex flex-col items-stretch gap-6 overflow-hidden rounded-xl border border-border-light bg-white p-6 transition-shadow duration-300 hover:shadow-lg dark:border-border-dark dark:bg-background-dark/50 dark:hover:shadow-accent/10 md:flex-row"
+              variants={itemVariants}
+            >
               <div className="w-full rounded-lg bg-gray-200 dark:bg-gray-700 md:w-1/3">
                 <img 
                   className="h-full w-full object-cover aspect-video md:aspect-auto rounded-lg" 
@@ -93,15 +146,22 @@ const Publications = () => {
                     This research provides new insights into the genetic landscape of hepatocellular carcinoma within the Indian population, identifying key mutations.
                   </p>
                 </div>
-                <button className="flex h-10 w-fit cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-primary px-4 text-sm font-bold text-white transition-opacity hover:opacity-90">
+                <motion.button 
+                  className="flex h-10 w-fit cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-primary px-4 text-sm font-bold text-white transition-opacity"
+                  whileHover={{ scale: 1.05, opacity: 0.9 }}
+                  whileTap={{ scale: 0.95 }}
+                >
                   <span className="truncate">Download PDF</span>
                   <span className="material-symbols-outlined !text-lg">download</span>
-                </button>
+                </motion.button>
               </div>
-            </div>
+            </motion.div>
 
             {/* Card 3 */}
-            <div className="flex flex-col items-stretch gap-6 overflow-hidden rounded-xl border border-border-light bg-white p-6 transition-shadow duration-300 hover:shadow-lg dark:border-border-dark dark:bg-background-dark/50 dark:hover:shadow-accent/10 md:flex-row">
+            <motion.div 
+              className="flex flex-col items-stretch gap-6 overflow-hidden rounded-xl border border-border-light bg-white p-6 transition-shadow duration-300 hover:shadow-lg dark:border-border-dark dark:bg-background-dark/50 dark:hover:shadow-accent/10 md:flex-row"
+              variants={itemVariants}
+            >
               <div className="w-full rounded-lg bg-gray-200 dark:bg-gray-700 md:w-1/3">
                 <img 
                   className="h-full w-full object-cover aspect-video md:aspect-auto rounded-lg" 
@@ -122,13 +182,17 @@ const Publications = () => {
                     An educational review discussing the indications, techniques, and diagnostic yield of endoscopic ultrasound-guided fine-needle aspiration for pancreatic cysts.
                   </p>
                 </div>
-                <button className="flex h-10 w-fit cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-primary px-4 text-sm font-bold text-white transition-opacity hover:opacity-90">
+                <motion.button 
+                  className="flex h-10 w-fit cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-primary px-4 text-sm font-bold text-white transition-opacity"
+                  whileHover={{ scale: 1.05, opacity: 0.9 }}
+                  whileTap={{ scale: 0.95 }}
+                >
                   <span className="truncate">Read More</span>
                   <span className="material-symbols-outlined !text-lg">arrow_forward</span>
-                </button>
+                </motion.button>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Pagination */}
           <div className="mt-12 flex items-center justify-center gap-2">
@@ -153,7 +217,7 @@ const Publications = () => {
             </button>
           </div>
         </div>
-      </main>
+      </motion.main>
     // </Layout>
   );
 };

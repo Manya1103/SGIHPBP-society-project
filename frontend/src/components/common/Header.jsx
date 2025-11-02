@@ -1,195 +1,244 @@
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import Logo from '../../assets/Logo_SGIHPBPS.png'
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Logo from '../../assets/Logo_SGIHPBPS.png';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = ({ currentPage }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     if (isMenuOpen) {
-      // When menu is open, add class to body to prevent scrolling
-      document.body.classList.add('overflow-hidden')
+      document.body.classList.add('overflow-hidden');
     } else {
-      // When menu is closed, remove the class
-      document.body.classList.remove('overflow-hidden')
+      document.body.classList.remove('overflow-hidden');
     }
-  }, [isMenuOpen])
+  }, [isMenuOpen]);
+
+  const menuVariants = {
+    hidden: {
+      x: '100%',
+      transition: {
+        type: 'tween',
+        duration: 0.4,
+        ease: 'easeOut',
+      },
+    },
+    visible: {
+      x: 0,
+      transition: {
+        type: 'tween',
+        duration: 0.4,
+        ease: 'easeIn',
+      },
+    },
+    exit: {
+      x: '100%',
+      transition: {
+        type: 'tween',
+        duration: 0.4,
+        ease: 'easeOut',
+      },
+    },
+  };
+
+  const navLinkVariants = {
+    hover: {
+      scale: 1.05,
+      color: '#d4af37',
+      originX: 0,
+    },
+    tap: {
+      scale: 0.95,
+    },
+  };
+
+  const mobileNavLinkVariants = {
+    hidden: {
+      y: 20,
+      opacity: 0,
+    },
+    visible: (i) => ({
+      y: 0,
+      opacity: 1,
+      transition: {
+        delay: i * 0.05,
+        type: 'spring',
+        stiffness: 300,
+        damping: 20,
+      },
+    }),
+  };
+
+  const navLinks = [
+    { to: '/', label: 'Home', page: 'home', icon: 'home' },
+    {
+      label: 'About Us',
+      page: 'about-us',
+      dropdown: [
+        { to: '/about-us', label: 'Our Mission & Vision', icon: 'info' },
+        { to: '/president-message', label: "President's Message", icon: 'person' },
+        { to: '/secretary-message', label: "Secretary General's Message", icon: 'person_outline' },
+      ],
+    },
+    { to: '/governing-body', label: 'Governing Body', page: 'governing-body', icon: 'groups' },
+    { to: '/membership', label: 'Membership', page: 'membership', icon: 'card_membership' },
+    { to: '/academics-events', label: 'Academics & Events', page: 'academics_events', icon: 'school' },
+    { to: '/publications', label: 'Publications', page: 'publications', icon: 'article' },
+    { to: '/contact-us', label: 'Contact Us', page: 'contact-us', icon: 'contact_mail' },
+  ];
+
+  const mobileNavLinks = [
+    { to: '/', label: 'Home', page: 'home', icon: 'home' },
+    { to: '/about-us', label: 'About Us', page: 'about-us', icon: 'info' },
+    { to: '/governing-body', label: 'Governing Body', page: 'governing-body', icon: 'groups' },
+    { to: '/president-message', label: "President's Message", page: 'president-message', icon: 'person' },
+    { to: '/secretary-message', label: "Secretary General's Message", page: 'secretary-message', icon: 'person_outline' },
+    { to: '/membership', label: 'Membership', page: 'membership', icon: 'card_membership' },
+    { to: '/academics-events', label: 'Academics & Events', page: 'academics-events', icon: 'school' },
+    { to: '/publications', label: 'Publications', page: 'publications', icon: 'article' },
+    { to: '/contact-us', label: 'Contact Us', page: 'contact-us', icon: 'contact_mail' },
+  ];
 
   return (
-    <header className="bg-white/80 dark:bg-primary/80 backdrop-blur-sm sticky top-0 z-50 shadow-md">
-      <nav className="container mx-auto p-2 ">
-        <div className="flex items-center justify-between">
-          <Link
-            to="/"
-            className="flex items-center space-x-3"
-          >
-            <img
-              alt="SGIHPBPs of India Logo"
-              className="h-14 w-14"
-              src={Logo}
-            />
-            <span className="font-display font-bold text-sm text-primary dark:text-white hidden md:block">
-              SGIHPBPs of India
-            </span>
-          </Link>
-
-          <div className="hidden lg:flex items-center space-x-6">
-            <Link
-              to="/"
-              className={`nav-link font-semibold transition-colors ${currentPage === 'home' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'
-                }`}
-            >
-              Home
-            </Link>
-            <div className="relative group">
-              <button className={`nav-link font-semibold flex items-center transition-colors ${currentPage === 'about-us' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'
-                }`}>
-                About Us <span className="material-icons text-sm ml-1">expand_more</span>
-              </button>
-              <div className="absolute hidden group-hover:block bg-white dark:bg-primary border border-gray-200 dark:border-gray-700 rounded shadow-lg mt-2 py-1 w-48">
-                <Link to="/about-us" className="block px-4 py-2 text-sm text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-blue-900 hover:text-gold-DEFAULT dark:hover:text-gold-light transition-colors">
-                  Our Mission & Vision
-                </Link>
-                <Link to="/president-message" className="block px-4 py-2 text-sm text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-blue-900 hover:text-gold-DEFAULT dark:hover:text-gold-light transition-colors">
-                  President's Message
-                </Link>
-                <Link to="/secretary-message" className="block px-4 py-2 text-sm text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-blue-900 hover:text-gold-DEFAULT dark:hover:text-gold-light transition-colors">
-                  Secretary General's Message
-                </Link>
+    // Wrap with a React Fragment
+    <>
+      <header className="bg-white/80 dark:bg-primary/80 backdrop-blur-sm sticky top-0 z-50 shadow-md">
+        {/*
+          FIX 1: Increased header height by changing p-2 to p-3 (h-16)
+          and added items-center to the nav
+        */}
+        <nav className="container mx-auto p-3 h-20 flex items-center">
+          {/*
+            FIX 2: Added w-full to this div to make justify-between work
+          */}
+          <div className="flex items-center justify-between w-full">
+            <Link to="/" className="flex items-center space-x-3">
+              <motion.img
+                alt="SGIHPBPs of India Logo"
+                className="h-16 w-16" // Increased logo size
+                src={Logo}
+              />
+              {/*
+                FIX 3: Changed <span> to <div>, set a width (w-48),
+                and adjusted font size/line-height for wrapping.
+              */}
+              <div className="font-display font-bold text-sm text-primary dark:text-white md:block w-48 leading-tight">
+                Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists of India
               </div>
+            </Link>
+
+            <div className="hidden lg:flex items-center space-x-6">
+              {navLinks.map((link) =>
+                link.dropdown ? (
+                  <div key={link.label} className="relative group">
+                    <motion.button
+                      variants={navLinkVariants}
+                      whileHover="hover"
+                      // whileTap="tap"
+                      className={`nav-link font-semibold flex items-center transition-colors ${
+                        currentPage === link.page ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'
+                      }`}
+                    >
+                      {link.label} <span className="material-icons text-sm ml-1">expand_more</span>
+                    </motion.button>
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="absolute hidden group-hover:block bg-white dark:bg-primary border border-gray-200 dark:border-gray-700 rounded shadow-lg mt-2 py-1 w-56"
+                    >
+                      {link.dropdown.map((item) => (
+                        <Link
+                          key={item.to}
+                          to={item.to}
+                          className="block px-4 py-2 text-sm text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-blue-900 hover:text-gold-DEFAULT dark:hover:text-gold-light transition-colors"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  </div>
+                ) : (
+                  <motion.div key={link.to} variants={navLinkVariants} whileHover="hover">
+                    <Link
+                      to={link.to}
+                      className={`nav-link font-semibold transition-colors ${
+                        currentPage === link.page ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                )
+              )}
             </div>
-            <Link
-              to="/governing-body"
-              className={`nav-link font-semibold transition-colors ${currentPage === 'governing-body' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'
-                }`}
-            >
-              Governing Body
-            </Link>
-            {/* President and Secretary links are in dropdown menu */}
-            <Link
-              to="/membership"
-              className={`nav-link font-semibold transition-colors ${currentPage === 'membership' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'
-                }`}
-            >
-              Membership
-            </Link>
-            <Link
-              to="/academics-events"
-              className={`nav-link font-semibold transition-colors ${currentPage === 'academics-events' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'
-                }`}
-            >
-              Academics & Events
-            </Link>
-            <Link
-              to="/publications"
-              className={`nav-link font-semibold transition-colors ${currentPage === 'publications' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'
-                }`}
-            >
-              Publications
-            </Link>
-            <Link
-              to="/contact-us"
-              className={`nav-link font-semibold transition-colors ${currentPage === 'contact-us' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'
-                }`}
-            >
-              Contact Us
-            </Link>
-            {/* <button
-              className={`nav-link font-semibold transition-colors ${currentPage === 'admin' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'
-                }`}
-              onClick={() => setCurrentPage && setCurrentPage('admin')}
-            >
-              Admin
-            </button> */}
-          </div>
 
-          <button
-            className="lg:hidden text-primary dark:text-white"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            <button className="lg:hidden text-primary dark:text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              <motion.div animate={{ rotate: isMenuOpen ? 90 : 0 }}>
+                <span className="material-icons-outlined">{isMenuOpen ? 'close' : 'menu'}</span>
+              </motion.div>
+            </button>
+          </div>
+        </nav>
+        
+      </header>
+
+      {/* FIX: The mobile menu is now OUTSIDE the <header>
+        This prevents it from inheriting the header's opacity.
+      */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            className="lg:hidden fixed top-0 left-0 w-full h-full bg-white dark:bg-primary z-50" // Added z-50 just in case
+            variants={menuVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
           >
-            <span className="material-icons-outlined">mmenu</span> {/*menu*/}
-          </button>
-        </div>
-      </nav>
+            {/* FIX 4: Increased height/logo size in mobile menu */}
+            <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700 h-20">
+              <Link to="/" className="flex items-center space-x-3" onClick={() => setIsMenuOpen(false)}>
+                <img alt="SGIHPBPs of India Logo" className="h-16 w-16" src={Logo} />
+                {/* FIX 5: Added wrapping to mobile menu title */}
+                <div className="font-display font-bold text-sm text-primary dark:text-white w-48 leading-tight">
+                  Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists of India
+                </div>
+              </Link>
+              <button className="text-primary dark:text-white" onClick={() => setIsMenuOpen(false)}>
+                <motion.div animate={{ rotate: 90 }}>
+                  <span className="material-icons-outlined">close</span>
+                </motion.div>
+              </button>
+            </div>
+            <div className="px-4 py-2 space-y-1">
+              {mobileNavLinks.map((link, i) => (
+                <motion.div
+                  key={link.to}
+                  custom={i}
+                  variants={mobileNavLinkVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <Link
+                    to={link.to}
+                    className={`flex items-center w-full text-left py-3 pl-4 font-semibold transition-colors text-lg ${
+                      currentPage === link.page
+                        ? 'text-[#D4AF37] dark:text-gold-light' // ACTIVE: Added underline
+                        : 'text-gray-800 dark:text-white'
+                    } hover:text-[#D4AF37] dark:hover:text-gold-light`} // HOVER: Added for all links
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <span className="material-icons-outlined mr-4">{link.icon}</span>
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="lg:hidden bg-white dark:bg-primary border-t border-gray-200 dark:border-gray-700">
-          <div className="px-4 py-2 space-y-1">
-            <Link
-              to="/"
-              className={`block w-full text-center py-2 font-semibold transition-colors ${currentPage === 'home' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              to="/about-us"
-              className={`block w-full text-center py-2 font-semibold transition-colors ${currentPage === 'about-us' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              About Us
-            </Link>
-            <Link
-              to="/governing-body"
-              className={`block w-full text-center py-2 font-semibold transition-colors ${currentPage === 'governing-body' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Governing Body
-            </Link>
-            <Link
-              to="/president-message"
-              className={`block w-full text-center py-2 font-semibold transition-colors ${currentPage === 'president-message' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              President's Message
-            </Link>
-            <Link
-              to="/secretary-message"
-              className={`block w-full text-center py-2 font-semibold transition-colors ${currentPage === 'secretary-message' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Secretary General's Message
-            </Link>
-            <Link
-              to="/membership"
-              className={`block w-full text-center py-2 font-semibold transition-colors ${currentPage === 'membership' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Membership
-            </Link>
-            <Link
-              to="/academics-events"
-              className={`block w-full text-center py-2 font-semibold transition-colors ${currentPage === 'academics-events' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Academics & Events
-            </Link>
-            <Link
-              to="/publications"
-              className={`block w-full text-center py-2 font-semibold transition-colors ${currentPage === 'publications' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Publications
-            </Link>
-            <Link
-              to="/contact-us"
-              className={`block w-full text-center py-2 font-semibold transition-colors ${currentPage === 'contact-us' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Contact Us
-            </Link>
-            {/* <button
-              className={`block w-full text-center py-2 font-semibold transition-colors ${currentPage === 'admin' ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'}`}
-              onClick={() => { setCurrentPage('admin'); setIsMenuOpen(false); }}
-            >
-              Admin
-            </button> */}
-          </div>
-        </div>
-      )}
-    </header>
-  )
-}
-
-export default Header
+export default Header;

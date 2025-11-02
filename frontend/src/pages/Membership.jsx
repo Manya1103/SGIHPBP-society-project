@@ -1,10 +1,47 @@
 import React from 'react';
 import Layout from '../components/Layout';
+import { motion } from 'framer-motion'; // 1. Import motion
+
+// 2. Define variants
+const sectionVariant = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+      duration: 0.5
+    }
+  }
+};
+
+const cardContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
 
 const Membership = () => {
   return (
     // <Layout>
-      <main>
+    // 3. Page fade-in transition
+      <motion.main
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         {/* Hero Section */}
         <section 
           className="bg-cover bg-center py-20" 
@@ -13,12 +50,23 @@ const Membership = () => {
           }}
         >
           <div className="container mx-auto px-6 text-center">
-            <h1 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
+            {/* 4. Title fade-down */}
+            <motion.h1 
+              className="text-4xl md:text-5xl font-display font-bold text-white mb-4"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
               Become a Member
-            </h1>
-            <p className="text-lg text-gray-200">
+            </motion.h1>
+            <motion.p 
+              className="text-lg text-gray-200"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
               Join a distinguished community of pathologists dedicated to advancing the field.
-            </p>
+            </motion.p>
           </div>
         </section>
 
@@ -27,27 +75,50 @@ const Membership = () => {
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto">
               
-              {/* Eligibility Section */}
-              <div className="mb-16">
+              {/* 5. Section scroll-in animation */}
+              <motion.div 
+                className="mb-16"
+                variants={sectionVariant}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+              >
                 <h2 className="text-3xl font-display font-bold text-text-light dark:text-heading-dark text-center mb-10">
                   Eligibility
                 </h2>
-                <div className="bg-card-light dark:bg-card-dark p-8 rounded-lg shadow-lg border border-border-light dark:border-border-dark">
+                <div className="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-lg border border-border-light dark:border-border-dark text-justify ">
                   <p className="text-base md:text-lg leading-relaxed text-gray-700 dark:text-gray-300">
                     Membership of the Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists of India (SGIHPBPs) is open to medical professionals and scientists who have a significant interest and are actively involved in the field of gastrointestinal and hepato-pancreatobiliary pathology. Applicants should hold a postgraduate medical degree (MD/DNB) in Pathology or an equivalent qualification recognized by the Medical Council of India. Membership is also available to scientists with a Ph.D. or equivalent degree working in a relevant field. All applications are subject to review and approval by the governing body of the society.
                   </p>
                 </div>
-              </div>
+              </motion.div>
 
-              {/* Membership Types & Fees Section */}
-              <div className="mb-16">
+              {/* Section scroll-in animation */}
+              <motion.div 
+                className="mb-16"
+                variants={sectionVariant}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+              >
                 <h2 className="text-3xl font-display font-bold text-text-light dark:text-heading-dark text-center mb-10">
                   Membership Types & Fees
                 </h2>
-                <div className="grid md:grid-cols-2 gap-8">
+                {/* 6. Stagger container for the two cards */}
+                <motion.div 
+                  className="grid md:grid-cols-2 gap-8"
+                  variants={cardContainerVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.3 }}
+                >
                   
-                  {/* Life Membership Card */}
-                  <div className="bg-card-light dark:bg-card-dark p-8 rounded-lg shadow-lg border border-border-light dark:border-border-dark flex flex-col">
+                  {/* Stagger item */}
+                  <motion.div 
+                    className="bg-card-light dark:bg-card-dark p-8 rounded-lg shadow-lg border border-border-light dark:border-border-dark flex flex-col"
+                    variants={cardVariants}
+                    whileHover={{ y: -5, scale: 1.03 }}
+                  >
                     <h3 className="text-2xl font-display font-semibold text-primary mb-4">
                       Life Membership
                     </h3>
@@ -58,10 +129,14 @@ const Membership = () => {
                       <p className="text-3xl font-bold text-text-light dark:text-heading-dark">₹10,000</p>
                       <p className="text-gray-500 dark:text-gray-500">One-Time Payment</p>
                     </div>
-                  </div>
+                  </motion.div>
 
-                  {/* Ad Hoc Membership Card */}
-                  <div className="bg-card-light dark:bg-card-dark p-8 rounded-lg shadow-lg border border-border-light dark:border-border-dark flex flex-col">
+                  {/* Stagger item */}
+                  <motion.div 
+                    className="bg-card-light dark:bg-card-dark p-8 rounded-lg shadow-lg border border-border-light dark:border-border-dark flex flex-col"
+                    variants={cardVariants}
+                    whileHover={{ y: -5, scale: 1.03 }}
+                  >
                     <h3 className="text-2xl font-display font-semibold text-primary mb-4">
                       Ad Hoc Membership
                     </h3>
@@ -72,12 +147,18 @@ const Membership = () => {
                       <p className="text-3xl font-bold text-text-light dark:text-heading-dark">₹2,000</p>
                       <p className="text-gray-500 dark:text-gray-500">Per Year</p>
                     </div>
-                  </div>
-                </div>
-              </div>
+                  </motion.div>
+                </motion.div>
+              </motion.div>
 
-              {/* Membership Benefits Section */}
-              <div className="mb-16">
+              {/* Section scroll-in animation */}
+              <motion.div 
+                className="mb-16"
+                variants={sectionVariant}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+              >
                 <h2 className="text-3xl font-display font-bold text-text-light dark:text-heading-dark text-center mb-10">
                   Membership Benefits
                 </h2>
@@ -115,41 +196,29 @@ const Membership = () => {
                     </li>
                   </ul>
                 </div>
-              </div>
+              </motion.div>
 
-              {/* Join Now Button */}
-              <div className="text-center">
-                <a 
-                  className="inline-block bg-primary text-white font-bold py-4 px-10 rounded-lg text-lg hover:opacity-90 transition-opacity duration-300" 
+              {/* 7. Animated button */}
+              <motion.div 
+                className="text-center"
+                variants={sectionVariant}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <motion.a 
+                  className="inline-block bg-primary text-white font-bold py-4 px-10 rounded-lg text-lg transition-opacity duration-300" 
                   href="#application-form"
+                  whileHover={{ scale: 1.05, y: -2, opacity: 0.9 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   Join Now
-                </a>
-              </div>
-
-              {/* Membership Application Section */}
-              {/* <div className="mt-24 pt-16 border-t border-border-light dark:border-border-dark" id="application-form">
-                <h2 className="text-3xl font-display font-bold text-text-light dark:text-heading-dark text-center mb-10">
-                  Membership Application
-                </h2>
-                <div className="bg-card-light dark:bg-card-dark p-8 rounded-lg shadow-lg border border-border-light dark:border-border-dark text-center">
-                  <p className="text-lg text-gray-600 dark:text-gray-400">
-                    The online application form is currently under development.
-                  </p>
-                  <p className="mt-2 text-gray-500 dark:text-gray-500">
-                    Please check back soon to apply for membership. We appreciate your patience.
-                  </p>
-                  <div className="mt-6">
-                    <span className="material-symbols-outlined text-5xl text-primary animate-spin">
-                      progress_activity
-                    </span>
-                  </div>
-                </div>
-              </div> */}
+                </motion.a>
+              </motion.div>
             </div>
           </div>
         </section>
-      </main>
+      </motion.main>
     // </Layout>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../components/Layout';
-import { apiClient, useAPI } from '../utils/api';
+import emailjs from '@emailjs/browser';
+import { motion } from 'framer-motion'; // 1. Import motion
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -14,39 +14,13 @@ const ContactUs = () => {
     success: false,
     error: null
   });
+
   const [contactInfo, setContactInfo] = useState({
     officeName: 'SGIHPBPs Registered Office',
     address: '78, LD Block, PITAMPURA,\nNew Delhi-110034',
     phone: '+91 22 2417 7000',
     email: 'contact@sgihpbps.org'
   });
-
-  const { handleAPIError } = useAPI();
-
-  // Load dynamic contact information
-  useEffect(() => {
-    const loadContactInfo = async () => {
-      try {
-        const [officeName, address, phone, email] = await Promise.all([
-          apiClient.getContent('contact_office_name'),
-          apiClient.getContent('contact_address'),
-          apiClient.getContent('contact_phone'),
-          apiClient.getContent('contact_email')
-        ]);
-
-        setContactInfo({
-          officeName: officeName.value || contactInfo.officeName,
-          address: address.value || contactInfo.address,
-          phone: phone.value || contactInfo.phone,
-          email: email.value || contactInfo.email
-        });
-      } catch (error) {
-        console.warn('Failed to load contact info, using defaults:', error);
-      }
-    };
-
-    loadContactInfo();
-  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -60,16 +34,28 @@ const ContactUs = () => {
     e.preventDefault();
     setSubmissionState({ loading: true, success: false, error: null });
 
-    try {
-      const response = await apiClient.submitContact(formData);
+    const templateParams = {
+      name: formData.name,
+      email: formData.email,
+      subject: formData.subject,
+      message: formData.message,
+      sent_time: new Date().toLocaleString()
+    };
 
+    emailjs.send(
+      'service_bxrjafe',
+      'template_t9rmf8l',
+      templateParams,
+      'lPdqKL7mHHgqGcUOS'
+    )
+    .then((result) => {
+      console.log('SUCCESS!', result.text);
       setSubmissionState({
         loading: false,
         success: true,
         error: null
       });
 
-      // Reset form
       setFormData({
         name: '',
         email: '',
@@ -77,25 +63,39 @@ const ContactUs = () => {
         message: ''
       });
 
-      // Auto-hide success message after 5 seconds
       setTimeout(() => {
         setSubmissionState(prev => ({ ...prev, success: false }));
       }, 5000);
 
-    } catch (error) {
+    }, (error) => {
+      console.error('EmailJS Error:', error.text);
+      console.error('FAILED...', error.text);
       setSubmissionState({
         loading: false,
         success: false,
-        error: error.message
+        error: `Sorry, we couldn't send your message. Please try again later or email us directly at ${contactInfo.email}.`
       });
-    }
+    });
+
   };
 
   return (
-    <main className="flex-grow">
+    // 2. Page fade-in transition
+    <motion.main 
+      className="flex-grow"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="container mx-auto px-6 py-6">
-        {/* Page Heading */}
-        <div className="text-center mb-16">
+        {/* 3. Title fade-down */}
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
           <h1 className="text-4xl lg:text-5xl font-black leading-tight tracking-tighter mt-2 text-accent dark:text-white">
             Get in Touch
           </h1>
@@ -103,9 +103,15 @@ const ContactUs = () => {
             We'd love to hear from you. Please fill out the form below to contact us, and we will
             get back to you as soon as possible.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        {/* 4. Content fade-up */}
+        <motion.div 
+          className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
           {/* Contact Form */}
           <div className="bg-subtle-light dark:bg-subtle-dark p-8 rounded-xl shadow-lg">
             <h2 className="text-2xl font-bold text-primary dark:text-white mb-6">Send Us a Message</h2>
@@ -135,6 +141,7 @@ const ContactUs = () => {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* ... form fields ... */}
               {/* Full Name & Email */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <label className="flex flex-col">
@@ -195,11 +202,13 @@ const ContactUs = () => {
                 ></textarea>
               </label>
 
-              {/* Submit Button */}
-              <button
+              {/* 5. Animated submit button */}
+              <motion.button
                 className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-accent text-primary text-base font-bold tracking-wide hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 type="submit"
                 disabled={submissionState.loading}
+                whileHover={!submissionState.loading ? { scale: 1.03 } : {}}
+                whileTap={!submissionState.loading ? { scale: 0.98 } : {}}
               >
                 {submissionState.loading ? (
                   <>
@@ -209,7 +218,7 @@ const ContactUs = () => {
                 ) : (
                   <span className="truncate">Send Message</span>
                 )}
-              </button>
+              </motion.button>
             </form>
           </div>
 
@@ -257,9 +266,9 @@ const ContactUs = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </main>
+    </motion.main>
     // </Layout>
   );
 };

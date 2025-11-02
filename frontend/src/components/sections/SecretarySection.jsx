@@ -1,12 +1,25 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import DrPrasenjitDas from '../../assets/Dr-Prasenjit-Das,-Secrertary-General.jpg';
+import { motion } from 'framer-motion';
 
 const SecretarySection = () => {
   return (
-    <section className="py-16 lg:py-24 bg-white dark:bg-background-dark">
+    <motion.section
+      className="py-16 lg:py-24 bg-white dark:bg-background-dark"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="container mx-auto px-4 lg:px-6">
         <div className="flex flex-col md:flex-row items-center gap-8 lg:gap-12">
-          <div className="md:w-1/3 text-center">
+          <motion.div
+            className="md:w-1/3 text-center"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <img
               className="w-64 h-64 rounded-full mx-auto object-contain border-4 border-gold shadow-xl"
               src={DrPrasenjitDas}
@@ -17,31 +30,36 @@ const SecretarySection = () => {
             <p className="text-gold-DEFAULT dark:text-gold-light font-semibold">
               Secretary General, SGIHPBPs
             </p>
-          </div>
+          </motion.div>
 
           <div className="md:w-2/3">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-primary dark:text-white mb-4">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-primary dark:text-white mb-4 text-center md:text-left">
               Message from the Secretary General
             </h2>
-            <div className="w-24 h-1 bg-gold-DEFAULT mb-6"></div>
-            <p>
+            <div className="w-24 h-1 bg-gold-DEFAULT mb-6 mx-auto md:mx-0"></div>
+            <p className="text-gray-600 dark:text-gray-200 mb-2 text-justify">
               Dear Members and Colleagues,
             </p>
-            &nbsp;
-            <p className="text-gray-600 dark:text-gray-200 mb-6 leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-200 mb-6 leading-relaxed text-justify">
               "I am deeply honored to serve as the Secretary General of the Society of Gastrointestinal and Hepatopancreatobiliary Pathologists of India (SGIHPBPs). I am committed to advancing our society in alignment with our core mission of training, collaboration, research, and academic excellence."
             </p>
-            <Link
-              to="/secretary-message"
-              className="inline-block text-primary font-bold py-3 px-8 rounded bg-yellow-500 dark:hover:bg-gold-light transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            <motion.div
+              whileHover={{ scale: 0.95 }}
+              whileTap={{ scale: 0.95 }}
+              className="text-center md:text-left"
             >
-              Read Full Message
-            </Link>
+              <Link
+                to="/secretary-message"
+                className="inline-block text-primary font-bold py-3 px-8 rounded bg-[#D4AF37] dark:hover:bg-gold-light transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              >
+                Read Full Message
+              </Link>
+            </motion.div>
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
-export default SecretarySection
+export default SecretarySection;

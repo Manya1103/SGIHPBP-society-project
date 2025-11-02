@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'; 
 import DrAnjaliAmarapurkar from '../assets/Dr-Anjali-Amarapurkar,-Vice-President.jpg';
 import DrArchanaRadstogi from '../assets/Dr-Archana-Radstogi,-Governing-Body-Member.jpg';
 import DrArvindAhuja from '../assets/Dr-Arvind-Ahuja,-Treasurer.jpg';
@@ -13,6 +14,24 @@ import DrRajivKaushal from '../assets/Dr-Rajiv-Kaushal,-Governing-Body-Member.jp
 import DrRajniYadav from '../assets/Dr-Rajni-Yadav,-Governing-Body-Member.png';
 import DrSurbhiGoyal from '../assets/Dr-Surbhi-Goyal,-Governing-Body-Member.jpg';
 import DrVatsalaMisra from '../assets/Dr-Vatsala-Misra,-Governing-Body-Member.jpg';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+  },
+};
 
 const GoverningBody = () => {
   // Office Bearers data
@@ -67,8 +86,12 @@ const GoverningBody = () => {
   ];
 
   const MemberCard = ({ member, isOfficer = false, showImage = true }) => (
-    <div className={`rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 ${isOfficer ? 'p-6' : 'p-5'} text-center shadow-sm hover:shadow-md transition-shadow`}>
-      {showImage && (
+    <motion.div 
+      className={`rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 ${isOfficer ? 'p-6' : 'p-5'} text-center shadow-sm transition-shadow`}
+      whileHover={{ scale: 1.03, y: -5, boxShadow: "0px 10px 15px -3px rgba(0,0,0,0.1)" }}
+      transition={{ type: 'spring', stiffness: 300 }}
+    >
+      {showImage && member.image && (
         <div className={`${isOfficer ? 'w-32 h-32 mb-4' : 'w-24 h-24 mb-4'} mx-auto`}>
           <img
             src={member.image}
@@ -82,19 +105,30 @@ const GoverningBody = () => {
       <p className="text-gray-700 dark:text-gray-300 text-sm">
         {member.position}
       </p>
-    </div>
+    </motion.div>
   );
 
   return (
-    <div className="bg-background-light dark:bg-background-dark min-h-screen">
+    <motion.div 
+      className="bg-background-light dark:bg-background-dark min-h-screen"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <main className="flex-1">
         <div className="container mx-auto px-4 py-12 md:py-20">
           <div className="mx-auto max-w-6xl">
-            {/* <div className="mb-12 text-center">
+            <motion.div 
+              className="mb-12 text-center"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
               <h1 className="text-primary dark:text-white text-4xl md:text-5xl font-black tracking-tighter">
                 Governing Body
               </h1>
-            </div> */}
+            </motion.div>
 
             {/* Office Bearers Section */}
             <section className="mb-16">
@@ -104,13 +138,20 @@ const GoverningBody = () => {
                 </h1>
                 <div className="absolute inset-x-0 bottom-[-8px] mx-auto h-0.5 w-20 bg-gold-DEFAULT"></div>
               </div>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <motion.div 
+                className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                variants={containerVariants}
+                initial="hidden"
+                // *** THE FIX: Use whileInView to trigger on scroll ***
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }} // Triggers when 20% is in view
+              >
                 {officeBearers.map((member, index) => (
-                  <MemberCard key={index} member={member} isOfficer={true}
-
-                  />
+                  <motion.div key={index} variants={itemVariants}>
+                    <MemberCard member={member} isOfficer={true} />
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </section>
 
             {/* Governing Body Members Section */}
@@ -121,11 +162,20 @@ const GoverningBody = () => {
                 </h2>
                 <div className="absolute inset-x-0 bottom-[-8px] mx-auto h-0.5 w-20 bg-gold-DEFAULT"></div>
               </div>
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              <motion.div 
+                className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                variants={containerVariants}
+                initial="hidden"
+                // *** THE FIX: Use whileInView to trigger on scroll ***
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }} 
+              >
                 {governingBodyMembers.map((member, index) => (
-                  <MemberCard key={index} member={member} />
+                  <motion.div key={index} variants={itemVariants}>
+                    <MemberCard member={member} />
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </section>
 
             {/* National Advisors Section */}
@@ -136,11 +186,20 @@ const GoverningBody = () => {
                 </h2>
                 <div className="absolute inset-x-0 bottom-[-8px] mx-auto h-0.5 w-20 bg-gold-DEFAULT"></div>
               </div>
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              <motion.div 
+                className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                variants={containerVariants}
+                initial="hidden"
+                // *** THE FIX: Use whileInView to trigger on scroll ***
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+              >
                 {nationalAdvisors.map((member, index) => (
-                  <MemberCard key={index} member={member} showImage={false} />
+                  <motion.div key={index} variants={itemVariants}>
+                    <MemberCard member={member} showImage={false} />
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </section>
 
             {/* International Advisors Section */}
@@ -151,16 +210,25 @@ const GoverningBody = () => {
                 </h2>
                 <div className="absolute inset-x-0 bottom-[-8px] mx-auto h-0.5 w-20 bg-gold-DEFAULT"></div>
               </div>
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              <motion.div 
+                className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                variants={containerVariants}
+                initial="hidden"
+                // whileInView to trigger on scroll
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+              >
                 {internationalAdvisors.map((member, index) => (
-                  <MemberCard key={index} member={member} showImage={false} />
+                  <motion.div key={index} variants={itemVariants}>
+                    <MemberCard member={member} showImage={false} />
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </section>
           </div>
         </div>
       </main>
-    </div>
+    </motion.div>
   );
 };
 

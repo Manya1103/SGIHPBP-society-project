@@ -12,7 +12,6 @@
 @tailwind utilities;
 
 .hero-bg {
-  background-image: url('https://placehold.co/1920x800/011F4B/FFFFFF?text=Medical+Image&font=lato');
   background-size: cover;
   background-position: center;
 }

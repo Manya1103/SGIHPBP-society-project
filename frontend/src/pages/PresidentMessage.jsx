@@ -1,14 +1,28 @@
+import { motion } from 'framer-motion';
+
 const PresidentMessage = () => {
     return (
-        <main>
+        <motion.main
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
             <div className="container mx-auto px-4 lg:px-6 py-16">
                 <div className="max-w-4xl mx-auto">
                     {/* Profile Section */}
-                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8 mb-12 pb-12 border-b border-border-light dark:border-border-dark">
+                    <motion.div 
+                        className="flex flex-col sm:flex-row items-center sm:items-start gap-8 mb-12 pb-12 border-b border-border-light dark:border-border-dark"
+                        initial={{ opacity: 0, y: -50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
                         <div className="flex-shrink-0">
-                            <img
+                            <motion.img
                                 className="w-40 h-40 rounded-full object-contain shadow-lg border-4 border-gold"
-                            // src={DrPujaSakhuja}
+                                // src={DrPujaSakhuja}
+                                initial={{ scale: 0.5, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                transition={{ duration: 0.5, delay: 0.2 }}
                             />
                         </div>
                         <div className="text-center sm:text-left pt-4">
@@ -19,10 +33,15 @@ const PresidentMessage = () => {
                                 President, SGIHPBPs of India
                             </p>
                         </div>
-                    </div>
+                    </motion.div>
 
-                    {/* Message Content */}
-                    <article className="prose prose-lg dark:prose-invert max-w-none text-text-light dark:text-text-dark prose-headings:text-primary dark:prose-headings:text-white prose-headings:font-display">
+                    {/* Message Section */}
+                    <motion.div 
+                        className="prose prose-lg max-w-none dark:prose-invert text-justify"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5, delay: 0.4 }}
+                    >
                         <p>
                             It gives me great pleasure to extend a warm welcome to all members and colleagues to the Society of Gastrointestinal and Hepatopancreatobiliary Pathologists (SGIHPBPs), of India. Our Society has been established with the vision of advancing the discipline of gastrointestinal and Hepatopancreatobiliary pathology in our country, a field that lies at the crossroads of clinical medicine, surgery, and research.
                         </p>
@@ -48,10 +67,10 @@ const PresidentMessage = () => {
                             President,<br />
                             SGIHPBPs of India
                         </p>
-                    </article>
+                    </motion.div>
                 </div>
             </div>
-        </main>
+        </motion.main>
     );
 };
 

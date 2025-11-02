@@ -11,6 +11,7 @@ import ContactUs from './pages/ContactUs'
 // import Admin from './pages/Admin'
 import PresidentMessage from './pages/PresidentMessage'
 import ScrollToTop from './components/ScrollToTop'
+import { AnimatePresence } from 'framer-motion' // 1. Import AnimatePresence
 
 function App() {
   const location = useLocation()
@@ -19,18 +20,21 @@ function App() {
   return (
     <Layout currentPage={currentPage}>
       <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/governing-body" element={<GoverningBody />} />
-        <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/secretary-message" element={<SecretaryMessage />} />
-        <Route path="/president-message" element={<PresidentMessage />} />
-        <Route path="/membership" element={<Membership />} />
-        <Route path="/academics-events" element={<AcademicsEvents />} />
-        <Route path="/publications" element={<Publications />} />
-        <Route path="/contact-us" element={<ContactUs />} />
-        {/* <Route path="/admin" element={<Admin />} /> */}
-      </Routes>
+      {/* 2. Wrap Routes in AnimatePresence */}
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Home />} />
+          <Route path="/governing-body" element={<GoverningBody />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/secretary-message" element={<SecretaryMessage />} />
+          <Route path="/president-message" element={<PresidentMessage />} />
+          <Route path="/membership" element={<Membership />} />
+          <Route path="/academics-events" element={<AcademicsEvents />} />
+          <Route path="/publications" element={<Publications />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          {/* <Route path="/admin" element={<Admin />} /> */}
+        </Routes>
+      </AnimatePresence>
     </Layout>
   )
 }
