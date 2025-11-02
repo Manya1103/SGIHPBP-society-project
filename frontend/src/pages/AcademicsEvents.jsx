@@ -44,7 +44,7 @@ const AcademicsEvents = () => {
             Academics & Events
           </h1>
           <div className="w-24 h-1 bg-secondary mx-auto mb-6"></div>
-          <p className="text-lg text-text-light dark:text-text-dark leading-relaxed">
+          <p className="text-lg text-text-light dark:text-text-dark leading-relaxed text-justify">
             Stay informed about our upcoming CMEs, workshops, and conferences. The Society is committed to fostering 
             continuous learning and professional development for all its members. Explore our calendar of events to find 
             opportunities for networking, knowledge sharing, and advancing your expertise in the field of pathology.
