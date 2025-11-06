@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'; 
+import { motion } from 'framer-motion';
 import DrAnjaliAmarapurkar from '../assets/Dr-Anjali-Amarapurkar,-Vice-President.jpg';
 import DrArchanaRadstogi from '../assets/Dr-Archana-Radstogi,-Governing-Body-Member.jpg';
 import DrArvindAhuja from '../assets/Dr-Arvind-Ahuja,-Treasurer.jpg';
@@ -14,6 +14,9 @@ import DrRajivKaushal from '../assets/Dr-Rajiv-Kaushal,-Governing-Body-Member.jp
 import DrRajniYadav from '../assets/Dr-Rajni-Yadav,-Governing-Body-Member.png';
 import DrSurbhiGoyal from '../assets/Dr-Surbhi-Goyal,-Governing-Body-Member.jpg';
 import DrVatsalaMisra from '../assets/Dr-Vatsala-Misra,-Governing-Body-Member.jpg';
+import DrRoopaPaulose from '../assets/Dr-Roopa-R-Paulose,-Governing-Body-Member.jpg';
+import DrPujaSakhuja from '../assets/Dr-Puja-Sakhuja,-President.jpg';
+import DrMunitaMenon from '../assets/Dr-Munita-Menon,-Governing-Body-Member.jpg';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -36,7 +39,7 @@ const itemVariants = {
 const GoverningBody = () => {
   // Office Bearers data
   const officeBearers = [
-    { name: "Prof. Puja Sakhuja", position: "President", image: `` },
+    { name: "Prof. Puja Sakhuja", position: "President", image: DrPujaSakhuja },
     { name: "Prof. Anjali Amarapurkar", position: "Vice-President", image: DrAnjaliAmarapurkar },
     { name: "Prof. Prasenjit Das", position: "Secretary General", image: DrPrasenjitDas },
     { name: "Prof. Arvind Ahuja", position: "Treasurer", image: DrArvindAhuja },
@@ -45,7 +48,7 @@ const GoverningBody = () => {
 
   // Governing Body Members data
   const governingBodyMembers = [
-    { name: "Prof. Puja Sakhuja", position: "President", image: `` },
+    { name: "Prof. Puja Sakhuja", position: "President", image: DrPujaSakhuja },
     { name: "Prof. Anjali Amarapurkar", position: "Vice-President", image: DrAnjaliAmarapurkar },
     { name: "Prof. Prasenjit Das", position: "Secretary General", image: DrPrasenjitDas },
     { name: "Prof. Arvind Ahuja", position: "Treasurer", image: DrArvindAhuja },
@@ -54,12 +57,12 @@ const GoverningBody = () => {
     { name: "Prof. Vatsala Misra", position: "Patron", image: DrVatsalaMisra },
     { name: "Prof. Mukta Ramadwar", position: "EC Member", image: DrMuktaRamadwar },
     { name: "Prof. Archana Rastogi", position: "EC Member", image: DrArchanaRadstogi },
-    { name: "Dr. Roopa Paulose", position: "EC Member", image: `` },
+    { name: "Dr. Roopa Paulose", position: "EC Member", image: DrRoopaPaulose },
     { name: "Dr. Chagan Bihari", position: "EC Member", image: DrChhaganBihari },
     { name: "Dr. Rajni Yadav", position: "EC Member", image: DrRajniYadav },
     { name: "Dr. Mala Baneerjee", position: "EC Member", image: DrMalaBaneerjee },
     { name: "Prof. Niraj Kumari", position: "EC Member", image: DrNirajKumari },
-    { name: "Prof. Munita Bal", position: "EC Member", image: `` },
+    { name: "Prof. Munita Bal", position: "EC Member", image: DrMunitaMenon },
     { name: "Dr. Mukul Vij", position: "EC Member", image: DrMukulVij },
     { name: "Dr. Rajeev Kumar", position: "EC Member", image: DrRajivKaushal },
     { name: "Dr. Surbhi Goyal", position: "EC Member", image: DrSurbhiGoyal },
@@ -86,7 +89,7 @@ const GoverningBody = () => {
   ];
 
   const MemberCard = ({ member, isOfficer = false, showImage = true }) => (
-    <motion.div 
+    <motion.div
       className={`rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 ${isOfficer ? 'p-6' : 'p-5'} text-center shadow-sm transition-shadow`}
       whileHover={{ scale: 1.03, y: -5, boxShadow: "0px 10px 15px -3px rgba(0,0,0,0.1)" }}
       transition={{ type: 'spring', stiffness: 300 }}
@@ -109,7 +112,7 @@ const GoverningBody = () => {
   );
 
   return (
-    <motion.div 
+    <motion.div
       className="bg-background-light dark:bg-background-dark min-h-screen"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -119,7 +122,7 @@ const GoverningBody = () => {
       <main className="flex-1">
         <div className="container mx-auto px-4 py-12 md:py-20">
           <div className="mx-auto max-w-6xl">
-            <motion.div 
+            {/* <motion.div
               className="mb-12 text-center"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -128,17 +131,22 @@ const GoverningBody = () => {
               <h1 className="text-primary dark:text-white text-4xl md:text-5xl font-black tracking-tighter">
                 Governing Body
               </h1>
-            </motion.div>
+            </motion.div> */}
 
             {/* Office Bearers Section */}
             <section className="mb-16">
-              <div className="relative mb-8 text-center">
+              <motion.div
+                className="relative mb-8 text-center"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
                 <h1 className="text-primary dark:text-white text-3xl md:text-4xl font-bold tracking-tight">
                   Office Bearers
                 </h1>
                 <div className="absolute inset-x-0 bottom-[-8px] mx-auto h-0.5 w-20 bg-gold-DEFAULT"></div>
-              </div>
-              <motion.div 
+              </motion.div>
+              <motion.div
                 className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
                 variants={containerVariants}
                 initial="hidden"
@@ -162,13 +170,13 @@ const GoverningBody = () => {
                 </h2>
                 <div className="absolute inset-x-0 bottom-[-8px] mx-auto h-0.5 w-20 bg-gold-DEFAULT"></div>
               </div>
-              <motion.div 
+              <motion.div
                 className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
                 variants={containerVariants}
                 initial="hidden"
                 // *** THE FIX: Use whileInView to trigger on scroll ***
                 whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }} 
+                viewport={{ once: true, amount: 0.2 }}
               >
                 {governingBodyMembers.map((member, index) => (
                   <motion.div key={index} variants={itemVariants}>
@@ -186,7 +194,7 @@ const GoverningBody = () => {
                 </h2>
                 <div className="absolute inset-x-0 bottom-[-8px] mx-auto h-0.5 w-20 bg-gold-DEFAULT"></div>
               </div>
-              <motion.div 
+              <motion.div
                 className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
                 variants={containerVariants}
                 initial="hidden"
@@ -210,7 +218,7 @@ const GoverningBody = () => {
                 </h2>
                 <div className="absolute inset-x-0 bottom-[-8px] mx-auto h-0.5 w-20 bg-gold-DEFAULT"></div>
               </div>
-              <motion.div 
+              <motion.div
                 className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
                 variants={containerVariants}
                 initial="hidden"
