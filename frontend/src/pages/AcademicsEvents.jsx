@@ -1,8 +1,8 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import { motion } from 'framer-motion'; // 1. Import motion
+import { motion } from 'framer-motion';
 
-// 2. Define variants
+// Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -25,7 +25,7 @@ const itemVariants = {
 const AcademicsEvents = () => {
   return (
     // <Layout>
-    // 3. Page fade-in transition
+    // Page fade-in transition
       <motion.main 
         className="container mx-auto px-6 py-12 md:py-20"
         initial={{ opacity: 0 }}
@@ -33,7 +33,7 @@ const AcademicsEvents = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
       >
-        {/* 4. Title fade-down */}
+        {/* Title fade-down */}
         <motion.div 
           className="text-center max-w-4xl mx-auto"
           initial={{ opacity: 0, y: -20 }}
@@ -51,7 +51,7 @@ const AcademicsEvents = () => {
           </p>
         </motion.div>
 
-        {/* 5. Stagger container */}
+        {/* Stagger container */}
         <motion.div 
           className="mt-16"
           variants={containerVariants}
@@ -60,30 +60,35 @@ const AcademicsEvents = () => {
         >
           <div className="bg-white dark:bg-gray-800/50 rounded-lg shadow-md border border-border-light dark:border-border-dark divide-y divide-border-light dark:divide-border-dark overflow-hidden">
             
-            {/* 6. Stagger item */}
+            {/* Stagger item - UPDATED FROM PDF */}
             <motion.div 
               className="p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between space-y-4 md:space-y-0 md:space-x-6"
               variants={itemVariants}
             >
               <div className="flex-grow">
                 <h2 className="text-2xl font-display font-bold text-primary dark:text-white mb-2">
-                  Annual National Conference 2024
+                  1st Annual CME of SGIHPBPs of India
                 </h2>
                 <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-2 sm:space-y-0 text-text-light dark:text-text-dark">
                   <div className="flex items-center">
                     <span className="material-symbols-outlined text-secondary mr-2 text-xl">calendar_month</span>
-                    <span>October 12-14, 2024</span>
+                    <span>February 27-28, 2026 (Workshop & CME)</span>
                   </div>
                   <div className="flex items-center">
                     <span className="material-symbols-outlined text-secondary mr-2 text-xl">location_on</span>
-                    <span>New Delhi, India</span>
+                    <span>Auditorium, GB Pant Hospital GIPMER, New Delhi</span>
                   </div>
                 </div>
+                <p className="text-sm text-text-light dark:text-text-dark mt-3">
+                  Early bird registration open until December 31, 2025.
+                </p>
               </div>
               {/* 7. Button hover animation */}
               <motion.a 
                 className="bg-secondary text-primary font-bold py-3 px-8 rounded-full shadow-lg transition-opacity duration-300 whitespace-nowrap" 
-                href="#"
+                href="https://forms.gle/cA5SJdTV4QLrCQPj8"
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -91,37 +96,7 @@ const AcademicsEvents = () => {
               </motion.a>
             </motion.div>
 
-            {/* Stagger item */}
-            <motion.div 
-              className="p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between space-y-4 md:space-y-0 md:space-x-6"
-              variants={itemVariants}
-            >
-              <div className="flex-grow">
-                <h2 className="text-2xl font-display font-bold text-primary dark:text-white mb-2">
-                  GI Pathology Update Workshop
-                </h2>
-                <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-2 sm:space-y-0 text-text-light dark:text-text-dark">
-                  <div className="flex items-center">
-                    <span className="material-symbols-outlined text-secondary mr-2 text-xl">calendar_month</span>
-                    <span>November 20, 2024</span>
-                  </div>
-                  <div className="flex items-center">
-                    <span className="material-symbols-outlined text-secondary mr-2 text-xl">location_on</span>
-                    <span>Online / Virtual</span>
-                  </div>
-                </div>
-              </div>
-              <motion.a 
-                className="bg-secondary text-primary font-bold py-3 px-8 rounded-full shadow-lg transition-opacity duration-300 whitespace-nowrap" 
-                href="#"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Learn More
-              </motion.a>
-            </motion.div>
-
-            {/* Stagger item */}
+            {/* Stagger item - Placeholder for next event */}
             <motion.div 
               className="p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between space-y-4 md:space-y-0 md:space-x-6 opacity-60"
               variants={itemVariants}
