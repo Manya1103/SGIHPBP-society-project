@@ -97,7 +97,7 @@ const AcademicsEvents = () => {
             </motion.div>
 
             {/* Stagger item - Placeholder for next event */}
-            <motion.div 
+            {/* <motion.div 
               className="p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between space-y-4 md:space-y-0 md:space-x-6 opacity-60"
               variants={itemVariants}
             >
@@ -119,7 +119,7 @@ const AcademicsEvents = () => {
               <button className="bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-400 font-bold py-3 px-8 rounded-full cursor-not-allowed whitespace-nowrap">
                 Coming Soon
               </button>
-            </motion.div>
+            </motion.div> */}
           </div>
         </motion.div>
       </motion.main>
