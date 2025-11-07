@@ -82,7 +82,15 @@ const Header = ({ currentPage }) => {
     },
     { to: '/governing-body', label: 'Governing Body', page: 'governing-body', icon: 'groups' },
     { to: '/membership', label: 'Membership', page: 'membership', icon: 'card_membership' },
-    { to: '/academics-events', label: 'Academics & Events', page: 'academics_events', icon: 'school' },
+    {
+      label: 'Academics & Events',
+      page: 'academics_events', // Base page key for highlighting
+      dropdown: [
+        { to: '/academics-events', label: 'Upcoming Events', icon: 'school' },
+        { to: '/journal-search', label: 'Journal Search', icon: 'find_in_page' },
+        { to: '/case-of-the-month', label: 'Case of the Month', icon: 'quiz' },
+      ],
+    },
     { to: '/publications', label: 'Publications', page: 'publications', icon: 'article' },
     { to: '/contact-us', label: 'Contact Us', page: 'contact-us', icon: 'contact_mail' },
   ];
@@ -94,7 +102,9 @@ const Header = ({ currentPage }) => {
     { to: '/president-message', label: "President's Message", page: 'president-message', icon: 'person' },
     { to: '/secretary-message', label: "Secretary General's Message", page: 'secretary-message', icon: 'person_outline' },
     { to: '/membership', label: 'Membership', page: 'membership', icon: 'card_membership' },
-    { to: '/academics-events', label: 'Academics & Events', page: 'academics-events', icon: 'school' },
+    { to: '/academics-events', label: 'Upcoming Events', page: 'academics-events', icon: 'school' },
+    { to: '/journal-search', label: 'Journal Search', page: 'journal-search', icon: 'find_in_page' },
+    { to: '/case-of-the-month', label: 'Case of the Month', page: 'case-of-the-month', icon: 'quiz' },
     { to: '/publications', label: 'Publications', page: 'publications', icon: 'article' },
     { to: '/contact-us', label: 'Contact Us', page: 'contact-us', icon: 'contact_mail' },
   ];
@@ -135,8 +145,11 @@ const Header = ({ currentPage }) => {
                       variants={navLinkVariants}
                       whileHover="hover"
                       // whileTap="tap"
+                      // This logic correctly highlights the parent tab if a child page is active
                       className={`nav-link font-semibold flex items-center transition-colors ${
-                        currentPage === link.page ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'
+                        currentPage === link.page || link.dropdown.some(item => item.to.slice(1) === currentPage) 
+                          ? 'text-gold-DEFAULT dark:text-gold-light' 
+                          : 'text-gray-800 dark:text-white'
                       }`}
                     >
                       {link.label} <span className="material-icons text-sm ml-1">expand_more</span>
@@ -162,9 +175,8 @@ const Header = ({ currentPage }) => {
                   <motion.div key={link.to} variants={navLinkVariants} whileHover="hover">
                     <Link
                       to={link.to}
-                      className={`nav-link font-semibold transition-colors ${
-                        currentPage === link.page ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'
-                      }`}
+                      className={`nav-link font-semibold transition-colors ${currentPage === link.page ? 'text-gold-DEFAULT dark:text-gold-light' : 'text-gray-800 dark:text-white'
+                        }`}
                     >
                       {link.label}
                     </Link>
@@ -180,7 +192,7 @@ const Header = ({ currentPage }) => {
             </button>
           </div>
         </nav>
-        
+
       </header>
 
       {/* FIX: The mobile menu is now OUTSIDE the <header>
@@ -221,11 +233,10 @@ const Header = ({ currentPage }) => {
                 >
                   <Link
                     to={link.to}
-                    className={`flex items-center w-full text-left py-3 pl-4 font-semibold transition-colors text-lg ${
-                      currentPage === link.page
+                    className={`flex items-center w-full text-left py-3 pl-4 font-semibold transition-colors text-lg ${currentPage === link.page
                         ? 'text-[#D4AF37] dark:text-gold-light' // ACTIVE: Added underline
                         : 'text-gray-800 dark:text-white'
-                    } hover:text-[#D4AF37] dark:hover:text-gold-light`} // HOVER: Added for all links
+                      } hover:text-[#D4AF37] dark:hover:text-gold-light`} // HOVER: Added for all links
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <span className="material-icons-outlined mr-4">{link.icon}</span>

@@ -11,7 +11,9 @@ import ContactUs from './pages/ContactUs'
 // import Admin from './pages/Admin'
 import PresidentMessage from './pages/PresidentMessage'
 import ScrollToTop from './components/ScrollToTop'
-import { AnimatePresence } from 'framer-motion' // 1. Import AnimatePresence
+import { AnimatePresence } from 'framer-motion'
+import JournalSearch from './pages/JournalSearch'
+import CaseOfTheMonth from './pages/CaseOfTheMonth'
 
 function App() {
   const location = useLocation()
@@ -20,7 +22,7 @@ function App() {
   return (
     <Layout currentPage={currentPage}>
       <ScrollToTop />
-      {/* 2. Wrap Routes in AnimatePresence */}
+      {/* Wrap Routes in AnimatePresence */}
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home />} />
@@ -32,6 +34,8 @@ function App() {
           <Route path="/academics-events" element={<AcademicsEvents />} />
           <Route path="/publications" element={<Publications />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/journal-search" element={<JournalSearch />} />
+          <Route path="/case-of-the-month" element={<CaseOfTheMonth />} />
           {/* <Route path="/admin" element={<Admin />} /> */}
         </Routes>
       </AnimatePresence>
