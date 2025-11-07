@@ -14,6 +14,7 @@ import ScrollToTop from './components/ScrollToTop'
 import { AnimatePresence } from 'framer-motion'
 import JournalSearch from './pages/JournalSearch'
 import CaseOfTheMonth from './pages/CaseOfTheMonth'
+import MembersDetails from './pages/MemberDetails'
 
 function App() {
   const location = useLocation()
@@ -31,6 +32,7 @@ function App() {
           <Route path="/secretary-message" element={<SecretaryMessage />} />
           <Route path="/president-message" element={<PresidentMessage />} />
           <Route path="/membership" element={<Membership />} />
+          <Route path="/members-details" element={<MembersDetails />} />
           <Route path="/academics-events" element={<AcademicsEvents />} />
           <Route path="/publications" element={<Publications />} />
           <Route path="/contact-us" element={<ContactUs />} />

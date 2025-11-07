@@ -81,7 +81,18 @@ const Header = ({ currentPage }) => {
       ],
     },
     { to: '/governing-body', label: 'Governing Body', page: 'governing-body', icon: 'groups' },
-    { to: '/membership', label: 'Membership', page: 'membership', icon: 'card_membership' },
+    // 1. === MODIFICATION START ===
+    // Change Membership from a single link to a dropdown
+    {
+      label: 'Membership',
+      page: 'membership', // This will highlight for /membership and /members-details
+      dropdown: [
+        { to: '/membership', label: 'Become a Member', icon: 'card_membership' },
+        { to: '/members-details', label: 'Member Directory', icon: 'list_alt' },
+      ],
+    },
+    // { to: '/membership', label: 'Membership', page: 'membership', icon: 'card_membership' }, // This line is replaced
+    // 1. === MODIFICATION END ===
     {
       label: 'Academics & Events',
       page: 'academics_events', // Base page key for highlighting
@@ -101,7 +112,12 @@ const Header = ({ currentPage }) => {
     { to: '/governing-body', label: 'Governing Body', page: 'governing-body', icon: 'groups' },
     { to: '/president-message', label: "President's Message", page: 'president-message', icon: 'person' },
     { to: '/secretary-message', label: "Secretary General's Message", page: 'secretary-message', icon: 'person_outline' },
-    { to: '/membership', label: 'Membership', page: 'membership', icon: 'card_membership' },
+    // 2. === MODIFICATION START ===
+    // Update mobile links
+    { to: '/membership', label: 'Become a Member', page: 'membership', icon: 'card_membership' },
+    { to: '/members-details', label: 'Member Directory', page: 'members-details', icon: 'list_alt' },
+    // { to: '/membership', label: 'Membership', page: 'membership', icon: 'card_membership' }, // This line is replaced
+    // 2. === MODIFICATION END ===
     { to: '/academics-events', label: 'Upcoming Events', page: 'academics-events', icon: 'school' },
     { to: '/journal-search', label: 'Journal Search', page: 'journal-search', icon: 'find_in_page' },
     { to: '/case-of-the-month', label: 'Case of the Month', page: 'case-of-the-month', icon: 'quiz' },
@@ -113,14 +129,7 @@ const Header = ({ currentPage }) => {
     // Wrap with a React Fragment
     <>
       <header className="bg-white/80 dark:bg-primary/80 backdrop-blur-sm sticky top-0 z-50 shadow-md">
-        {/*
-          FIX 1: Increased header height by changing p-2 to p-3 (h-16)
-          and added items-center to the nav
-        */}
         <nav className="container mx-auto p-3 h-20 flex items-center">
-          {/*
-            FIX 2: Added w-full to this div to make justify-between work
-          */}
           <div className="flex items-center justify-between w-full">
             <Link to="/" className="flex items-center space-x-3">
               <motion.img
@@ -128,10 +137,6 @@ const Header = ({ currentPage }) => {
                 className="h-16 w-16" // Increased logo size
                 src={Logo}
               />
-              {/*
-                FIX 3: Changed <span> to <div>, set a width (w-48),
-                and adjusted font size/line-height for wrapping.
-              */}
               <div className="font-display font-bold text-sm text-primary dark:text-white md:block w-48 leading-tight">
                 Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists of India
               </div>
@@ -144,7 +149,6 @@ const Header = ({ currentPage }) => {
                     <motion.button
                       variants={navLinkVariants}
                       whileHover="hover"
-                      // whileTap="tap"
                       // This logic correctly highlights the parent tab if a child page is active
                       className={`nav-link font-semibold flex items-center transition-colors ${
                         currentPage === link.page || link.dropdown.some(item => item.to.slice(1) === currentPage) 
@@ -164,7 +168,12 @@ const Header = ({ currentPage }) => {
                         <Link
                           key={item.to}
                           to={item.to}
-                          className="block px-4 py-2 text-sm text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-blue-900 hover:text-gold-DEFAULT dark:hover:text-gold-light transition-colors"
+                          // 3. This logic highlights the active dropdown item
+                          className={`block px-4 py-2 text-sm ${
+                            currentPage === item.to.slice(1)
+                              ? 'text-gold-DEFAULT dark:text-gold-light font-bold'
+                              : 'text-gray-800 dark:text-white'
+                          } hover:bg-gray-100 dark:hover:bg-blue-900 hover:text-gold-DEFAULT dark:hover:text-gold-light transition-colors`}
                         >
                           {item.label}
                         </Link>
@@ -195,9 +204,6 @@ const Header = ({ currentPage }) => {
 
       </header>
 
-      {/* FIX: The mobile menu is now OUTSIDE the <header>
-        This prevents it from inheriting the header's opacity.
-      */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -207,11 +213,9 @@ const Header = ({ currentPage }) => {
             animate="visible"
             exit="exit"
           >
-            {/* FIX 4: Increased height/logo size in mobile menu */}
             <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700 h-20">
               <Link to="/" className="flex items-center space-x-3" onClick={() => setIsMenuOpen(false)}>
                 <img alt="SGIHPBPs of India Logo" className="h-16 w-16" src={Logo} />
-                {/* FIX 5: Added wrapping to mobile menu title */}
                 <div className="font-display font-bold text-sm text-primary dark:text-white w-48 leading-tight">
                   Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists of India
                 </div>
@@ -223,7 +227,7 @@ const Header = ({ currentPage }) => {
               </button>
             </div>
             <div className="px-4 py-2 space-y-1">
-              {mobileNavLinks.map((link, i) => (
+              {mobileNavLinks.map((link, i) => ( // 4. This uses the updated mobileNavLinks
                 <motion.div
                   key={link.to}
                   custom={i}
@@ -234,9 +238,9 @@ const Header = ({ currentPage }) => {
                   <Link
                     to={link.to}
                     className={`flex items-center w-full text-left py-3 pl-4 font-semibold transition-colors text-lg ${currentPage === link.page
-                        ? 'text-[#D4AF37] dark:text-gold-light' // ACTIVE: Added underline
+                        ? 'text-[#D4AF37] dark:text-gold-light' // ACTIVE
                         : 'text-gray-800 dark:text-white'
-                      } hover:text-[#D4AF37] dark:hover:text-gold-light`} // HOVER: Added for all links
+                      } hover:text-[#D4AF37] dark:hover:text-gold-light`} // HOVER
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <span className="material-icons-outlined mr-4">{link.icon}</span>
