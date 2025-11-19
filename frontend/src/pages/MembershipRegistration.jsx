@@ -139,40 +139,40 @@ const MembershipRegistration = () => {
                 {/* Personal Details */}
                 <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                        <label className="form-label">Your Name *</label>
+                        <label className="form-label">Your Name <span className="text-red-500">*</span></label>
                         <input required type="text" name="Name" value={formData.Name} onChange={handleChange} className="form-input" />
                     </div>
                     <div>
-                         <label className="form-label">Passport Size Photo (Max 1MB) *</label>
+                         <label className="form-label">Passport Size Photo (Max 1MB) <span className="text-red-500">*</span></label>
                          <input required type="file" accept="image/*" onChange={handleFileChange} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>
                     </div>
                 </div>
 
                 <div>
-                    <label className="form-label">Institution & Country *</label>
+                    <label className="form-label">Institution & Country <span className="text-red-500">*</span></label>
                     <input required type="text" name="Institution" value={formData.Institution} onChange={handleChange} className="form-input" />
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                        <label className="form-label">Email ID *</label>
+                        <label className="form-label">Email ID <span className="text-red-500">*</span></label>
                         <input required type="email" name="Email" value={formData.Email} onChange={handleChange} className="form-input" />
                     </div>
                     <div>
-                        <label className="form-label">Phone Number *</label>
+                        <label className="form-label">Phone Number <span className="text-red-500">*</span></label>
                         <input required type="tel" name="Phone" value={formData.Phone} onChange={handleChange} className="form-input" />
                     </div>
                 </div>
 
                 <div>
-                    <label className="form-label">Your Address *</label>
+                    <label className="form-label">Your Address <span className="text-red-500">*</span></label>
                     <textarea required name="Address" value={formData.Address} onChange={handleChange} rows="2" className="form-input"></textarea>
                 </div>
 
                 {/* Professional Status */}
                 <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg space-y-4 border border-gray-200 dark:border-gray-600">
                     <div>
-                        <label className="form-label mb-2 block">Are you a practicing Pathologist? *</label>
+                        <label className="form-label mb-2 block">Are you a practicing Pathologist? <span className="text-red-500">*</span></label>
                         <div className="flex gap-4">
                             <label className="flex items-center"><input type="radio" name="Practicing" value="Yes" checked={formData.Practicing === 'Yes'} onChange={handleChange} className="mr-2" /> Yes</label>
                             <label className="flex items-center"><input type="radio" name="Practicing" value="No" checked={formData.Practicing === 'No'} onChange={handleChange} className="mr-2" /> No</label>
@@ -191,7 +191,7 @@ const MembershipRegistration = () => {
                     
                     <div className="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label className="form-label">Membership Type *</label>
+                            <label className="form-label">Membership Type <span className="text-red-500">*</span></label>
                             <select name="MembershipType" value={formData.MembershipType} onChange={handleChange} className="form-input">
                                 <option>Life Membership</option>
                                 <option>Ad Hoc Membership (For 3 years)</option>
@@ -199,7 +199,7 @@ const MembershipRegistration = () => {
                             </select>
                         </div>
                         <div>
-                            <label className="form-label">Amount Paid *</label>
+                            <label className="form-label">Amount Paid <span className="text-red-500">*</span></label>
                             <select name="Amount" value={formData.Amount} onChange={handleChange} className="form-input">
                                 <option>10,000 INR</option>
                                 <option>2,500 INR</option>
@@ -209,14 +209,14 @@ const MembershipRegistration = () => {
                     </div>
 
                     <div>
-                        <label className="form-label">Transaction Details & Date *</label>
+                        <label className="form-label">Transaction Details & Date <span className="text-red-500">*</span></label>
                         <input required type="text" name="TransactionDetails" value={formData.TransactionDetails} onChange={handleChange} className="form-input" placeholder="e.g., UPI Ref: 1234567890, Date: 25/11/2025" />
                     </div>
                 </div>
 
                 {/* Interest */}
                 <div>
-                    <label className="form-label">How are you interested in GI & HPB Pathology? *</label>
+                    <label className="form-label">How are you interested in GI & HPB Pathology? <span className="text-red-500">*</span></label>
                     <select name="Interest" value={formData.Interest} onChange={handleChange} className="form-input">
                         <option>I am a gastrointestinal & hepatopancreatobiliary pathologist</option>
                         <option>I am a PG student interested in this field of pathology</option>
