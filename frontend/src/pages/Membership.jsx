@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import { motion } from 'framer-motion'; // 1. Import motion
+import { motion } from 'framer-motion'; 
+import { Link } from 'react-router-dom';
 
 // 2. Define variants
 const sectionVariant = {
@@ -206,7 +207,7 @@ const Membership = () => {
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
             >
-              <motion.a
+              {/* <motion.a
                 className="inline-block bg-primary text-white font-bold py-4 px-10 rounded-lg text-lg transition-opacity duration-300"
                 href="
 https://docs.google.com/forms/d/e/1FAIpQLScNrIfWN3eX4XEBRhnCF9rXUHXooTii994i3G8nvmaJFpGwbg/viewform?usp=header"
@@ -216,7 +217,13 @@ https://docs.google.com/forms/d/e/1FAIpQLScNrIfWN3eX4XEBRhnCF9rXUHXooTii994i3G8n
                 whileTap={{ scale: 0.95 }}
               >
                 Join Now
-              </motion.a>
+              </motion.a> */}
+              <Link
+                to="/join-membership"
+                className="inline-block bg-primary text-white font-bold py-4 px-10 rounded-lg text-lg transition-opacity duration-300"
+              >
+                Join Now
+              </Link>
             </motion.div>
           </div>
         </div>

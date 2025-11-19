@@ -15,6 +15,7 @@ import { AnimatePresence } from 'framer-motion'
 import JournalSearch from './pages/JournalSearch'
 import CaseOfTheMonth from './pages/CaseOfTheMonth'
 import MembersDetails from './pages/MemberDetails'
+import MembershipRegistration from './pages/MembershipRegistration';
 
 function App() {
   const location = useLocation()
@@ -38,6 +39,7 @@ function App() {
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/journal-search" element={<JournalSearch />} />
           <Route path="/case-of-the-month" element={<CaseOfTheMonth />} />
+          <Route path="/join-membership" element={<MembershipRegistration />} />
           {/* <Route path="/admin" element={<Admin />} /> */}
         </Routes>
       </AnimatePresence>
