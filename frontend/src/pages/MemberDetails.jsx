@@ -70,7 +70,7 @@ const MembersDetails = () => {
         
         {/* Search & Filters */}
         <div className="flex flex-col lg:flex-row justify-between items-center gap-6 mb-8">
-           <div className="relative w-full lg:w-1/3">
+           <div className="relative w-full lg:w-2/4">
              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
              <input 
                type="text" 
