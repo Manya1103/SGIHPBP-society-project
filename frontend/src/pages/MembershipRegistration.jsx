@@ -23,6 +23,7 @@ const MembershipRegistration = () => {
     photo: null
   });
   const [regStatus, setRegStatus] = useState(null); // null, 'submitting', 'success', 'error'
+  const [errors, setErrors] = useState({}); // State for Validation Errors
 
   // --- STATE: CHECK STATUS ---
   const [checkEmail, setCheckEmail] = useState('');
@@ -35,25 +36,140 @@ const MembershipRegistration = () => {
   // --- HANDLERS: REGISTRATION ---
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    // Clear error when user starts typing
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: null });
+    }
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Validate file size (1MB limit)
       if (file.size > 1024 * 1024) {
-        alert("File size must be less than 1MB");
+        setErrors({ ...errors, photo: "File size must be less than 1MB" });
+        e.target.value = ''; // Clear the input
         return;
       }
+      
+      // Validate file type - only images
+      const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+      if (!validTypes.includes(file.type)) {
+        setErrors({ ...errors, photo: "Only image files (JPG, PNG, GIF) are allowed" });
+        e.target.value = ''; // Clear the input
+        return;
+      }
+      
       const reader = new FileReader();
       reader.onloadend = () => {
         setFormData({ ...formData, photo: { data: reader.result, type: file.type } });
+        if (errors.photo) setErrors({ ...errors, photo: null });
+      };
+      reader.onerror = () => {
+        setErrors({ ...errors, photo: "Error reading file. Please try again." });
       };
       reader.readAsDataURL(file);
     }
   };
 
+  // --- VALIDATION FUNCTION ---
+  const validateForm = () => {
+    let tempErrors = {};
+    let isValid = true;
+
+    // Name validation - must contain only letters, spaces, and common name characters
+    if (!formData.Name.trim()) {
+      tempErrors.Name = "Full Name is required";
+      isValid = false;
+    } else if (formData.Name.trim().length < 3) {
+      tempErrors.Name = "Name must be at least 3 characters";
+      isValid = false;
+    } else if (!/^[a-zA-Z\s.'-]+$/.test(formData.Name)) {
+      tempErrors.Name = "Name can only contain letters, spaces, and basic punctuation";
+      isValid = false;
+    }
+
+    // Qualification validation
+    if (!formData.Qualification.trim()) {
+      tempErrors.Qualification = "Qualification is required";
+      isValid = false;
+    } else if (formData.Qualification.trim().length < 2) {
+      tempErrors.Qualification = "Qualification must be at least 2 characters";
+      isValid = false;
+    }
+
+    // Institution validation
+    if (!formData.Institution.trim()) {
+      tempErrors.Institution = "Institution is required";
+      isValid = false;
+    } else if (formData.Institution.trim().length < 3) {
+      tempErrors.Institution = "Institution name must be at least 3 characters";
+      isValid = false;
+    }
+
+    // Email validation - more strict pattern
+    if (!formData.Email.trim()) {
+      tempErrors.Email = "Email is required";
+      isValid = false;
+    } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.Email)) {
+      tempErrors.Email = "Please enter a valid email address";
+      isValid = false;
+    }
+
+    // Phone validation - must be exactly 10 digits
+    if (!formData.Phone.trim()) {
+      tempErrors.Phone = "Phone number is required";
+      isValid = false;
+    } else {
+      const cleanPhone = formData.Phone.replace(/\D/g, '');
+      if (cleanPhone.length !== 10) {
+        tempErrors.Phone = "Phone number must be exactly 10 digits";
+        isValid = false;
+      } else if (!/^[6-9]/.test(cleanPhone)) {
+        tempErrors.Phone = "Invalid phone number (must start with 6-9)";
+        isValid = false;
+      }
+    }
+
+    // Address validation
+    if (!formData.Address.trim()) {
+      tempErrors.Address = "Address is required";
+      isValid = false;
+    } else if (formData.Address.trim().length < 10) {
+      tempErrors.Address = "Address must be at least 10 characters";
+      isValid = false;
+    } else if (formData.Address.trim().length > 500) {
+      tempErrors.Address = "Address is too long (max 500 characters)";
+      isValid = false;
+    }
+
+    // Transaction Details validation
+    if (!formData.TransactionDetails.trim()) {
+      tempErrors.TransactionDetails = "Transaction details are required";
+      isValid = false;
+    } else if (formData.TransactionDetails.trim().length < 10) {
+      tempErrors.TransactionDetails = "Please provide complete transaction details (at least 10 characters)";
+      isValid = false;
+    }
+
+    // Photo validation
+    if (!formData.photo) {
+      tempErrors.photo = "Passport photo is required";
+      isValid = false;
+    }
+
+    setErrors(tempErrors);
+    return isValid;
+  };
+
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      // Scroll to top or show alert if needed, but inline errors will show
+      return; 
+    }
+
     setRegStatus('submitting');
 
     try {
@@ -69,6 +185,7 @@ const MembershipRegistration = () => {
          Address: '', Email: '', Phone: '', MembershipType: 'Life Membership', 
          Amount: '10,000 INR', TransactionDetails: '', Interest: 'I am a gastrointestinal & hepatopancreatobiliary pathologist', photo: null
       });
+      setErrors({});
     } catch (error) {
       console.error("Error:", error);
       setRegStatus('error');
@@ -78,12 +195,18 @@ const MembershipRegistration = () => {
   // --- HANDLERS: CHECK STATUS ---
   const handleCheckStatus = async (e) => {
     e.preventDefault();
+    if (!checkEmail.trim()) {
+      alert("Please enter an email address");
+      return;
+    }
+    // Validate email format
+    if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(checkEmail)) {
+      alert("Please enter a valid email address");
+      return;
+    }
     setStatusResult('loading');
     
     try {
-      // We use a POST request with action: 'check_status'
-      // Note: For this to work, your Google Script must handle 'check_status' and return JSON.
-      // We use fetch directly. If CORS is an issue in development, testing in the deployed site usually works better.
       const response = await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
         body: JSON.stringify({ action: "check_status", email: checkEmail })
@@ -112,7 +235,7 @@ const MembershipRegistration = () => {
         
         {/* Header with Tabs */}
         <div className="bg-primary text-white p-8 text-center">
-          <h1 className="text-3xl font-bold font-display">Membership Form for the Society of Gastrointestinal & Hepatopancreatobiliary Pathologists, of India</h1>
+          <h1 className="text-3xl font-bold font-display">Membership Portal</h1>
           <p className="mt-2 opacity-90 mb-6">Join the Society or Manage your Membership</p>
           
           <div className="flex flex-wrap justify-center gap-4">
@@ -169,7 +292,7 @@ const MembershipRegistration = () => {
                     className="w-40 h-40 mx-auto object-contain border rounded-lg mb-2"
                     onError={(e) => {e.target.style.display='none'; e.target.parentNode.innerHTML+='<p class="text-red-500 text-xs">QR Code image not found</p>'}}
                   />
-                  <p className="text-xs text-gray-500 dark:text-gray-300">Accepts UPI, GPay, Paytm, PhonePe</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-300">Accepts UPI, GPay, Paytm</p>
                 </div>
               </div>
             </div>
@@ -192,38 +315,99 @@ const MembershipRegistration = () => {
                   <div className="grid md:grid-cols-2 gap-6">
                       <div>
                           <label className="form-label">Full Name <span className="text-red-500">*</span></label>
-                          <input required type="text" name="Name" value={formData.Name} onChange={handleChange} className="form-input" />
+                          <input 
+                            type="text" 
+                            name="Name" 
+                            value={formData.Name} 
+                            onChange={handleChange} 
+                            className={`form-input ${errors.Name ? 'border-red-500' : ''}`} 
+                            maxLength="100"
+                            placeholder="Enter your full name"
+                          />
+                          {errors.Name && <p className="text-red-500 text-xs mt-1">{errors.Name}</p>}
                       </div>
                       <div>
                            <label className="form-label">Passport Photo (Max 1MB) <span className="text-red-500">*</span></label>
-                           <input required type="file" accept="image/*" onChange={handleFileChange} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>
+                           <input 
+                             type="file" 
+                             accept="image/jpeg,image/jpg,image/png,image/gif" 
+                             onChange={handleFileChange} 
+                             className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                           />
+                           {errors.photo && <p className="text-red-500 text-xs mt-1">{errors.photo}</p>}
                       </div>
                   </div>
 
                   <div>
                       <label className="form-label">Qualification <span className="text-red-500">*</span></label>
-                      <input required type="text" name="Qualification" value={formData.Qualification} onChange={handleChange} className="form-input" placeholder="e.g. MD Pathology, DNB"/>
+                      <input 
+                        type="text" 
+                        name="Qualification" 
+                        value={formData.Qualification} 
+                        onChange={handleChange} 
+                        className={`form-input ${errors.Qualification ? 'border-red-500' : ''}`} 
+                        placeholder="e.g. MD Pathology, DNB"
+                        maxLength="200"
+                      />
+                      {errors.Qualification && <p className="text-red-500 text-xs mt-1">{errors.Qualification}</p>}
                   </div>
 
                   <div>
                       <label className="form-label">Institution & Country <span className="text-red-500">*</span></label>
-                      <input required type="text" name="Institution" value={formData.Institution} onChange={handleChange} className="form-input" />
+                      <input 
+                        type="text" 
+                        name="Institution" 
+                        value={formData.Institution} 
+                        onChange={handleChange} 
+                        className={`form-input ${errors.Institution ? 'border-red-500' : ''}`} 
+                        maxLength="200"
+                        placeholder="Your institution name and country"
+                      />
+                      {errors.Institution && <p className="text-red-500 text-xs mt-1">{errors.Institution}</p>}
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
                       <div>
                           <label className="form-label">Email ID <span className="text-red-500">*</span></label>
-                          <input required type="email" name="Email" value={formData.Email} onChange={handleChange} className="form-input" />
+                          <input 
+                            type="email" 
+                            name="Email" 
+                            value={formData.Email} 
+                            onChange={handleChange} 
+                            className={`form-input ${errors.Email ? 'border-red-500' : ''}`} 
+                            maxLength="100"
+                            placeholder="youremail@example.com"
+                          />
+                          {errors.Email && <p className="text-red-500 text-xs mt-1">{errors.Email}</p>}
                       </div>
                       <div>
                           <label className="form-label">Phone Number <span className="text-red-500">*</span></label>
-                          <input required type="tel" name="Phone" value={formData.Phone} onChange={handleChange} className="form-input" />
+                          <input 
+                            type="tel" 
+                            name="Phone" 
+                            value={formData.Phone} 
+                            onChange={handleChange} 
+                            className={`form-input ${errors.Phone ? 'border-red-500' : ''}`} 
+                            maxLength="15"
+                            placeholder="10-digit phone number"
+                            pattern="[0-9]*"
+                          />
+                          {errors.Phone && <p className="text-red-500 text-xs mt-1">{errors.Phone}</p>}
                       </div>
                   </div>
 
                   <div>
                       <label className="form-label">Your Address <span className="text-red-500">*</span></label>
-                      <textarea required name="Address" value={formData.Address} onChange={handleChange} rows="2" className="form-input"></textarea>
+                      <textarea 
+                        name="Address" 
+                        value={formData.Address} 
+                        onChange={handleChange} 
+                        rows="2" 
+                        className={`form-input ${errors.Address ? 'border-red-500' : ''}`}
+                        maxLength="500"
+                        placeholder="Enter your complete address"
+                      ></textarea>
+                      {errors.Address && <p className="text-red-500 text-xs mt-1">{errors.Address}</p>}
                   </div>
 
                   <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg space-y-4 border border-gray-200 dark:border-gray-600">
@@ -236,7 +420,15 @@ const MembershipRegistration = () => {
                       </div>
                       <div>
                           <label className="form-label">If PG student, PhD student or Fellow, specify subspecialty:</label>
-                          <input type="text" name="StudentStatus" value={formData.StudentStatus} onChange={handleChange} className="form-input" placeholder="e.g., 2nd Year PG, GI Pathology Fellow" />
+                          <input 
+                            type="text" 
+                            name="StudentStatus" 
+                            value={formData.StudentStatus} 
+                            onChange={handleChange} 
+                            className="form-input" 
+                            placeholder="e.g., 2nd Year PG, GI Pathology Fellow" 
+                            maxLength="200"
+                          />
                       </div>
                   </div>
 
@@ -262,12 +454,21 @@ const MembershipRegistration = () => {
                       </div>
                       <div>
                           <label className="form-label">Transaction ID & Date <span className="text-red-500">*</span></label>
-                          <input required type="text" name="TransactionDetails" value={formData.TransactionDetails} onChange={handleChange} className="form-input" placeholder="e.g., UPI Ref 123456, Date: 25/11/2025" />
+                          <input 
+                            type="text" 
+                            name="TransactionDetails" 
+                            value={formData.TransactionDetails} 
+                            onChange={handleChange} 
+                            className={`form-input ${errors.TransactionDetails ? 'border-red-500' : ''}`} 
+                            placeholder="e.g., UPI Ref 123456, Date: 25/11/2025" 
+                            maxLength="200"
+                          />
+                          {errors.TransactionDetails && <p className="text-red-500 text-xs mt-1">{errors.TransactionDetails}</p>}
                       </div>
                   </div>
 
                   <div>
-                      <label className="form-label">How are you interested in GI & HPB Pathology?<span className="text-red-500">*</span></label>
+                      <label className="form-label">Interest in GI & HPB Pathology <span className="text-red-500">*</span></label>
                       <select name="Interest" value={formData.Interest} onChange={handleChange} className="form-input">
                           <option>I am a gastrointestinal & hepatopancreatobiliary pathologist</option>
                           <option>I am a PG student interested in this field of pathology</option>

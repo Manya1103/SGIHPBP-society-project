@@ -20,6 +20,7 @@ const EventRegistration = () => {
   });
 
   const [status, setStatus] = useState(null);
+  const [errors, setErrors] = useState({}); // State for Validation Errors
 
   // UPDATE THIS WITH YOUR GOOGLE SCRIPT URL
   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzzxqhFFViFMnIy3bSgS3TOUCKj9Pn2L4q1TAw-8wr_wXEwFpq0fn8Kcx4VqQu9WV83/exec";
@@ -27,25 +28,156 @@ const EventRegistration = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    // Clear error
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: null });
+    }
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Validate file size
       if (file.size > 10 * 1024 * 1024) { // 10MB Limit
-        alert("File size must be less than 10MB");
+        setErrors({ ...errors, screenshot: "File size must be less than 10MB" });
+        e.target.value = ''; // Clear the input
         return;
       }
+      
+      // Validate file type
+      const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'application/pdf'];
+      if (!validTypes.includes(file.type)) {
+        setErrors({ ...errors, screenshot: "Only image files (JPG, PNG, GIF) or PDF are allowed" });
+        e.target.value = ''; // Clear the input
+        return;
+      }
+      
       const reader = new FileReader();
       reader.onloadend = () => {
         setFormData({ ...formData, screenshot: { data: reader.result, type: file.type } });
+        if (errors.screenshot) setErrors({ ...errors, screenshot: null });
+      };
+      reader.onerror = () => {
+        setErrors({ ...errors, screenshot: "Error reading file. Please try again." });
       };
       reader.readAsDataURL(file);
     }
   };
 
+  // --- VALIDATION FUNCTION ---
+  const validateForm = () => {
+    let tempErrors = {};
+    let isValid = true;
+
+    // Name validation - must contain only letters, spaces, and common name characters
+    if (!formData.Name.trim()) { 
+      tempErrors.Name = "Name is required"; 
+      isValid = false; 
+    } else if (formData.Name.trim().length < 3) {
+      tempErrors.Name = "Name must be at least 3 characters";
+      isValid = false;
+    } else if (!/^[a-zA-Z\s.'-]+$/.test(formData.Name)) {
+      tempErrors.Name = "Name can only contain letters, spaces, and basic punctuation";
+      isValid = false;
+    }
+
+    // Institute validation
+    if (!formData.Institute.trim()) { 
+      tempErrors.Institute = "Institute is required"; 
+      isValid = false; 
+    } else if (formData.Institute.trim().length < 3) {
+      tempErrors.Institute = "Institute name must be at least 3 characters";
+      isValid = false;
+    }
+
+    // City validation
+    if (!formData.City.trim()) { 
+      tempErrors.City = "City is required"; 
+      isValid = false; 
+    } else if (formData.City.trim().length < 2) {
+      tempErrors.City = "City name must be at least 2 characters";
+      isValid = false;
+    } else if (!/^[a-zA-Z\s.-]+$/.test(formData.City)) {
+      tempErrors.City = "City name can only contain letters and basic punctuation";
+      isValid = false;
+    }
+    
+    // Mobile validation - must be exactly 10 digits
+    if (!formData.Mobile.trim()) {
+      tempErrors.Mobile = "Mobile number is required";
+      isValid = false;
+    } else {
+      const cleanMobile = formData.Mobile.replace(/\D/g, '');
+      if (cleanMobile.length !== 10) {
+        tempErrors.Mobile = "Mobile number must be exactly 10 digits";
+        isValid = false;
+      } else if (!/^[6-9]/.test(cleanMobile)) {
+        tempErrors.Mobile = "Invalid mobile number (must start with 6-9)";
+        isValid = false;
+      }
+    }
+
+    // Email validation
+    if (!formData.Email.trim()) {
+      tempErrors.Email = "Email is required";
+      isValid = false;
+    } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.Email)) {
+      tempErrors.Email = "Please enter a valid email address";
+      isValid = false;
+    }
+
+    // Transaction ID validation - must not be just numbers or too short
+    if (!formData.TransactionID.trim()) { 
+      tempErrors.TransactionID = "Transaction ID is required"; 
+      isValid = false; 
+    } else if (formData.TransactionID.trim().length < 6) {
+      tempErrors.TransactionID = "Transaction ID must be at least 6 characters";
+      isValid = false;
+    } else if (!/[a-zA-Z0-9]/.test(formData.TransactionID)) {
+      tempErrors.TransactionID = "Please enter a valid transaction ID";
+      isValid = false;
+    }
+
+    // Transaction Date validation - cannot be future date
+    if (!formData.TransactionDate) { 
+      tempErrors.TransactionDate = "Transaction date is required"; 
+      isValid = false; 
+    } else {
+      const selectedDate = new Date(formData.TransactionDate);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      if (selectedDate > today) {
+        tempErrors.TransactionDate = "Transaction date cannot be in the future";
+        isValid = false;
+      }
+      
+      // Check if date is too old (more than 1 year)
+      const oneYearAgo = new Date();
+      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+      if (selectedDate < oneYearAgo) {
+        tempErrors.TransactionDate = "Transaction date seems too old (more than 1 year)";
+        isValid = false;
+      }
+    }
+    
+    // Screenshot validation
+    if (!formData.screenshot) {
+      tempErrors.screenshot = "Payment screenshot is required";
+      isValid = false;
+    }
+
+    setErrors(tempErrors);
+    return isValid;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+
     setStatus('submitting');
 
     try {
@@ -130,7 +262,16 @@ const EventRegistration = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                     <div>
                         <label className="form-label">Full Name <span className="text-red-500">*</span></label>
-                        <input required type="text" name="Name" value={formData.Name} onChange={handleChange} className="form-input" />
+                        <input 
+                          type="text" 
+                          name="Name" 
+                          value={formData.Name} 
+                          onChange={handleChange} 
+                          className={`form-input ${errors.Name ? 'border-red-500' : ''}`} 
+                          maxLength="100"
+                          placeholder="Enter your full name"
+                        />
+                        {errors.Name && <p className="text-red-500 text-xs mt-1">{errors.Name}</p>}
                     </div>
                     <div>
                         <label className="form-label">Designation <span className="text-red-500">*</span></label>
@@ -145,22 +286,59 @@ const EventRegistration = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                      <div>
                         <label className="form-label">Institute Name <span className="text-red-500">*</span></label>
-                        <input required type="text" name="Institute" value={formData.Institute} onChange={handleChange} className="form-input" />
+                        <input 
+                          type="text" 
+                          name="Institute" 
+                          value={formData.Institute} 
+                          onChange={handleChange} 
+                          className={`form-input ${errors.Institute ? 'border-red-500' : ''}`} 
+                          maxLength="200"
+                          placeholder="Your institution name"
+                        />
+                        {errors.Institute && <p className="text-red-500 text-xs mt-1">{errors.Institute}</p>}
                     </div>
                     <div>
                         <label className="form-label">City <span className="text-red-500">*</span></label>
-                        <input required type="text" name="City" value={formData.City} onChange={handleChange} className="form-input" />
+                        <input 
+                          type="text" 
+                          name="City" 
+                          value={formData.City} 
+                          onChange={handleChange} 
+                          className={`form-input ${errors.City ? 'border-red-500' : ''}`} 
+                          maxLength="100"
+                          placeholder="Your city"
+                        />
+                        {errors.City && <p className="text-red-500 text-xs mt-1">{errors.City}</p>}
                     </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
                     <div>
                         <label className="form-label">Mobile Number <span className="text-red-500">*</span></label>
-                        <input required type="tel" name="Mobile" value={formData.Mobile} onChange={handleChange} className="form-input" />
+                        <input 
+                          type="tel" 
+                          name="Mobile" 
+                          value={formData.Mobile} 
+                          onChange={handleChange} 
+                          className={`form-input ${errors.Mobile ? 'border-red-500' : ''}`} 
+                          maxLength="15"
+                          placeholder="10-digit mobile number"
+                          pattern="[0-9]*"
+                        />
+                        {errors.Mobile && <p className="text-red-500 text-xs mt-1">{errors.Mobile}</p>}
                     </div>
                     <div>
                         <label className="form-label">Email ID <span className="text-red-500">*</span></label>
-                        <input required type="email" name="Email" value={formData.Email} onChange={handleChange} className="form-input" />
+                        <input 
+                          type="email" 
+                          name="Email" 
+                          value={formData.Email} 
+                          onChange={handleChange} 
+                          className={`form-input ${errors.Email ? 'border-red-500' : ''}`} 
+                          maxLength="100"
+                          placeholder="your.email@example.com"
+                        />
+                        {errors.Email && <p className="text-red-500 text-xs mt-1">{errors.Email}</p>}
                     </div>
                 </div>
 
@@ -190,17 +368,35 @@ const EventRegistration = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                     <div>
                         <label className="form-label">Transaction ID <span className="text-red-500">*</span></label>
-                        <input required type="text" name="TransactionID" value={formData.TransactionID} onChange={handleChange} className="form-input" placeholder="UPI Ref / UTR No." />
+                        <input 
+                          type="text" 
+                          name="TransactionID" 
+                          value={formData.TransactionID} 
+                          onChange={handleChange} 
+                          className={`form-input ${errors.TransactionID ? 'border-red-500' : ''}`} 
+                          placeholder="UPI Ref / UTR No." 
+                          maxLength="50"
+                        />
+                        {errors.TransactionID && <p className="text-red-500 text-xs mt-1">{errors.TransactionID}</p>}
                     </div>
                     <div>
                         <label className="form-label">Transaction Date <span className="text-red-500">*</span></label>
-                        <input required type="date" name="TransactionDate" value={formData.TransactionDate} onChange={handleChange} className="form-input" />
+                        <input 
+                          type="date" 
+                          name="TransactionDate" 
+                          value={formData.TransactionDate} 
+                          onChange={handleChange} 
+                          className={`form-input ${errors.TransactionDate ? 'border-red-500' : ''}`} 
+                          max={new Date().toISOString().split('T')[0]}
+                        />
+                        {errors.TransactionDate && <p className="text-red-500 text-xs mt-1">{errors.TransactionDate}</p>}
                     </div>
                 </div>
 
                 <div>
                     <label className="form-label">Transaction Screenshot (Max 10MB) <span className="text-red-500">*</span></label>
-                    <input required type="file" accept="image/*,application/pdf" onChange={handleFileChange} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-secondary file:text-primary hover:file:bg-yellow-500"/>
+                    <input type="file" accept="image/*,application/pdf" onChange={handleFileChange} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-secondary file:text-primary hover:file:bg-yellow-500"/>
+                    {errors.screenshot && <p className="text-red-500 text-xs mt-1">{errors.screenshot}</p>}
                 </div>
 
                 <button 
