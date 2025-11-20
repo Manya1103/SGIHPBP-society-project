@@ -1,36 +1,46 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import PaymentQR from '../assets/payment-qr.png'; // Ensure this image exists
+import PaymentQR from '../assets/payment-qr.png';
 
 const MembershipRegistration = () => {
+  // State to toggle between Registration and Status Check
+  const [activeTab, setActiveTab] = useState('register'); // 'register' or 'status'
+
+  // --- STATE: NEW REGISTRATION ---
   const [formData, setFormData] = useState({
     Name: '',
-    Institution: '', // "Institution & Country"
-    Practicing: 'Yes', // "Are you a practicing Pathologist?"
-    StudentStatus: '', // "PG student, PhD student or Fellow?"
+    Institution: '',
+    Qualification: '', 
+    Practicing: 'Yes',
+    StudentStatus: '',
     Address: '',
     Email: '',
     Phone: '',
     MembershipType: 'Life Membership',
     Amount: '10,000 INR',
-    TransactionDetails: '', // "Transaction Details and date"
-    Interest: 'I am a gastrointestinal & hepatopancreatobiliary pathologist', // Interest dropdown
-    photo: null // Will hold the base64 string
+    TransactionDetails: '',
+    Interest: 'I am a gastrointestinal & hepatopancreatobiliary pathologist',
+    photo: null
   });
+  const [regStatus, setRegStatus] = useState(null); // null, 'submitting', 'success', 'error'
 
-  const [status, setStatus] = useState(null);
-  
+  // --- STATE: CHECK STATUS ---
+  const [checkEmail, setCheckEmail] = useState('');
+  const [statusResult, setStatusResult] = useState(null); // null, 'loading', 'found', 'not_found', 'error'
+  const [memberData, setMemberData] = useState(null);
+
+  // Your Google Script URL
   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzzxqhFFViFMnIy3bSgS3TOUCKj9Pn2L4q1TAw-8wr_wXEwFpq0fn8Kcx4VqQu9WV83/exec";
+
+  // --- HANDLERS: REGISTRATION ---
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle File Upload
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 1024 * 1024) { // 1MB Limit
+      if (file.size > 1024 * 1024) {
         alert("File size must be less than 1MB");
         return;
       }
@@ -42,27 +52,54 @@ const MembershipRegistration = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    setStatus('submitting');
+    setRegStatus('submitting');
 
     try {
-      // We use fetch to send the JSON data including the base64 photo
       await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-
-      setStatus('success');
-      // Reset form
+      setRegStatus('success');
       setFormData({
-        Name: '', Institution: '', Practicing: 'Yes', StudentStatus: '', Address: '', Email: '', Phone: '', MembershipType: 'Life Membership', Amount: '10,000 INR', TransactionDetails: '', Interest: 'I am a gastrointestinal & hepatopancreatobiliary pathologist', photo: null
+         Name: '', Institution: '', Qualification: '', Practicing: 'Yes', StudentStatus: '', 
+         Address: '', Email: '', Phone: '', MembershipType: 'Life Membership', 
+         Amount: '10,000 INR', TransactionDetails: '', Interest: 'I am a gastrointestinal & hepatopancreatobiliary pathologist', photo: null
       });
     } catch (error) {
       console.error("Error:", error);
-      setStatus('error');
+      setRegStatus('error');
+    }
+  };
+
+  // --- HANDLERS: CHECK STATUS ---
+  const handleCheckStatus = async (e) => {
+    e.preventDefault();
+    setStatusResult('loading');
+    
+    try {
+      // We use a POST request with action: 'check_status'
+      // Note: For this to work, your Google Script must handle 'check_status' and return JSON.
+      // We use fetch directly. If CORS is an issue in development, testing in the deployed site usually works better.
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "check_status", email: checkEmail })
+      });
+      
+      const data = await response.json();
+      
+      if (data.result === 'found') {
+        setMemberData(data);
+        setStatusResult('found');
+      } else {
+        setStatusResult('not_found');
+      }
+    } catch (error) {
+      console.error("Check Status Error:", error);
+      setStatusResult('error');
     }
   };
 
@@ -73,174 +110,273 @@ const MembershipRegistration = () => {
     >
       <div className="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-2xl overflow-hidden">
         
+        {/* Header with Tabs */}
         <div className="bg-primary text-white p-8 text-center">
-          <h1 className="text-2xl md:text-3xl font-bold font-display">Membership Form for the Society of Gastrointestinal & Hepatopancreatobiliary Pathologists, of India</h1>
-          <p className="mt-2 opacity-90">Please complete all details below.</p>
+          <h1 className="text-3xl font-bold font-display">Membership Form for the Society of Gastrointestinal & Hepatopancreatobiliary Pathologists, of India</h1>
+          <p className="mt-2 opacity-90 mb-6">Join the Society or Manage your Membership</p>
+          
+          <div className="flex flex-wrap justify-center gap-4">
+            <button 
+              onClick={() => setActiveTab('register')}
+              className={`px-6 py-2 rounded-full font-bold transition-all ${
+                activeTab === 'register' 
+                ? 'bg-white text-primary shadow-lg' 
+                : 'bg-primary-dark text-white/70 border border-white/30 hover:bg-primary-light'
+              }`}
+            >
+              New Application
+            </button>
+            <button 
+              onClick={() => setActiveTab('status')}
+              className={`px-6 py-2 rounded-full font-bold transition-all ${
+                activeTab === 'status' 
+                ? 'bg-white text-primary shadow-lg' 
+                : 'bg-primary-dark text-white/70 border border-white/30 hover:bg-primary-light'
+              }`}
+            >
+              Check Status / Download
+            </button>
+          </div>
         </div>
 
-        <div className="grid lg:grid-cols-3">
-          
-          {/* LEFT SIDE: Bank Details (Takes up 1/3 on large screens) */}
-          <div className="lg:col-span-1 p-8 bg-gray-50 dark:bg-gray-700 border-r border-gray-200 dark:border-gray-600">
-            <h3 className="text-xl font-bold text-primary dark:text-white mb-6 flex items-center">
-              <span className="material-symbols-outlined mr-2">payments</span>
-              Payment Information
-            </h3>
-            
-            <div className="space-y-6 text-sm text-gray-700 dark:text-gray-300">
-               {/* Bank Details Card */}
-              <div className="bg-white dark:bg-gray-600 p-5 rounded-lg shadow-sm border border-gray-200 dark:border-gray-500">
-                <h4 className="font-bold text-lg mb-3 text-primary dark:text-white border-b pb-2">Bank Transfer</h4>
-                <div className="space-y-2">
-                    <p><strong>Account Name:</strong> Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists</p>
-                    <p><strong>Bank:</strong> Bank of Baroda</p>
-                    <p><strong>Account No:</strong> 26020100024967</p>
-                    <p><strong>IFSC Code:</strong> BARB0RAMEEL <br/><span className="text-xs text-red-500">(5th character is Zero)</span></p>
-                    <p><strong>Branch:</strong> Dr. RML Hospital, New Delhi</p>
-                </div>
-              </div>
-
-               {/* QR Code Card */}
-              <div className="bg-white dark:bg-gray-600 p-5 rounded-lg shadow-sm border border-gray-200 dark:border-gray-500 text-center">
-                <h4 className="font-bold text-lg mb-3 text-primary dark:text-white border-b pb-2 text-left">Scan QR to Pay</h4>
-                <img 
-                  src={PaymentQR} 
-                  alt="Payment QR Code" 
-                  className="w-40 h-40 mx-auto object-contain border rounded-lg mb-2"
-                  onError={(e) => {e.target.style.display='none'; e.target.parentNode.innerHTML+='<p class="text-red-500 text-xs">QR Code image not found</p>'}}
-                />
-                <p className="text-xs text-gray-500 dark:text-gray-300">Accepts UPI, GPay, Paytm, PhonePe</p>
-              </div>
+        {/* === TAB 1: NEW REGISTRATION === */}
+        {activeTab === 'register' && (
+          <div className="grid lg:grid-cols-3">
+            {/* Left Side: Bank Details */}
+            <div className="lg:col-span-1 p-8 bg-gray-50 dark:bg-gray-700 border-r border-gray-200 dark:border-gray-600">
+              <h3 className="text-xl font-bold text-primary dark:text-white mb-6 flex items-center">
+                <span className="material-symbols-outlined mr-2">payments</span>
+                Payment Information
+              </h3>
               
-              <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded text-blue-800 dark:text-blue-200 text-xs">
-                  <strong>Note:</strong> Please complete your payment <strong>before</strong> filling this form. You will need the Transaction ID.
+              <div className="space-y-6 text-sm text-gray-700 dark:text-gray-300">
+                <div className="bg-white dark:bg-gray-600 p-5 rounded-lg shadow-sm border border-gray-200 dark:border-gray-500">
+                  <h4 className="font-bold text-lg mb-3 text-primary dark:text-white border-b pb-2">Bank Transfer</h4>
+                  <div className="space-y-2">
+                      <p><strong>Account Name:</strong> Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists</p>
+                      <p><strong>Bank:</strong> Bank of Baroda</p>
+                      <p><strong>Account No:</strong> 26020100024967</p>
+                      <p><strong>IFSC Code:</strong> BARB0RAMEEL <br/><span className="text-xs text-red-500">(5th character is Zero)</span></p>
+                      <p><strong>Branch:</strong> Dr. RML Hospital, New Delhi</p>
+                  </div>
+                </div>
+
+                <div className="bg-white dark:bg-gray-600 p-5 rounded-lg shadow-sm border border-gray-200 dark:border-gray-500 text-center">
+                  <h4 className="font-bold text-lg mb-3 text-primary dark:text-white border-b pb-2 text-left">Scan QR to Pay</h4>
+                  <img 
+                    src={PaymentQR} 
+                    alt="Payment QR Code" 
+                    className="w-40 h-40 mx-auto object-contain border rounded-lg mb-2"
+                    onError={(e) => {e.target.style.display='none'; e.target.parentNode.innerHTML+='<p class="text-red-500 text-xs">QR Code image not found</p>'}}
+                  />
+                  <p className="text-xs text-gray-500 dark:text-gray-300">Accepts UPI, GPay, Paytm, PhonePe</p>
+                </div>
               </div>
             </div>
+
+            {/* Right Side: Form */}
+            <div className="lg:col-span-2 p-8">
+              {regStatus === 'success' ? (
+                <div className="text-center py-12">
+                  <span className="material-symbols-outlined text-6xl text-green-500 mb-4">check_circle</span>
+                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">Application Submitted!</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    We have received your details. You can check your status in the "Check Status" tab.
+                  </p>
+                  <button onClick={() => setRegStatus(null)} className="mt-6 text-primary font-bold hover:underline">
+                    Submit another response
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleRegisterSubmit} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                          <label className="form-label">Full Name <span className="text-red-500">*</span></label>
+                          <input required type="text" name="Name" value={formData.Name} onChange={handleChange} className="form-input" />
+                      </div>
+                      <div>
+                           <label className="form-label">Passport Photo (Max 1MB) <span className="text-red-500">*</span></label>
+                           <input required type="file" accept="image/*" onChange={handleFileChange} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>
+                      </div>
+                  </div>
+
+                  <div>
+                      <label className="form-label">Qualification <span className="text-red-500">*</span></label>
+                      <input required type="text" name="Qualification" value={formData.Qualification} onChange={handleChange} className="form-input" placeholder="e.g. MD Pathology, DNB"/>
+                  </div>
+
+                  <div>
+                      <label className="form-label">Institution & Country <span className="text-red-500">*</span></label>
+                      <input required type="text" name="Institution" value={formData.Institution} onChange={handleChange} className="form-input" />
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                          <label className="form-label">Email ID <span className="text-red-500">*</span></label>
+                          <input required type="email" name="Email" value={formData.Email} onChange={handleChange} className="form-input" />
+                      </div>
+                      <div>
+                          <label className="form-label">Phone Number <span className="text-red-500">*</span></label>
+                          <input required type="tel" name="Phone" value={formData.Phone} onChange={handleChange} className="form-input" />
+                      </div>
+                  </div>
+
+                  <div>
+                      <label className="form-label">Your Address <span className="text-red-500">*</span></label>
+                      <textarea required name="Address" value={formData.Address} onChange={handleChange} rows="2" className="form-input"></textarea>
+                  </div>
+
+                  <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg space-y-4 border border-gray-200 dark:border-gray-600">
+                      <div>
+                          <label className="form-label mb-2 block">Are you a practicing Pathologist? <span className="text-red-500">*</span></label>
+                          <div className="flex gap-4">
+                              <label className="flex items-center"><input type="radio" name="Practicing" value="Yes" checked={formData.Practicing === 'Yes'} onChange={handleChange} className="mr-2" /> Yes</label>
+                              <label className="flex items-center"><input type="radio" name="Practicing" value="No" checked={formData.Practicing === 'No'} onChange={handleChange} className="mr-2" /> No</label>
+                          </div>
+                      </div>
+                      <div>
+                          <label className="form-label">If PG student, PhD student or Fellow, specify subspecialty:</label>
+                          <input type="text" name="StudentStatus" value={formData.StudentStatus} onChange={handleChange} className="form-input" placeholder="e.g., 2nd Year PG, GI Pathology Fellow" />
+                      </div>
+                  </div>
+
+                  <div className="p-4 border-2 border-gold-DEFAULT/30 rounded-lg space-y-4 bg-yellow-50/50 dark:bg-gray-800">
+                      <h4 className="font-bold text-primary dark:text-white border-b border-gold-DEFAULT/20 pb-2">Payment Details</h4>
+                      <div className="grid md:grid-cols-2 gap-6">
+                          <div>
+                              <label className="form-label">Membership Type <span className="text-red-500">*</span></label>
+                              <select name="MembershipType" value={formData.MembershipType} onChange={handleChange} className="form-input">
+                                  <option>Life Membership</option>
+                                  <option>Ad Hoc Membership (For 3 years)</option>
+                                  <option>Associate Life Membership</option>
+                              </select>
+                          </div>
+                          <div>
+                              <label className="form-label">Amount Paid <span className="text-red-500">*</span></label>
+                              <select name="Amount" value={formData.Amount} onChange={handleChange} className="form-input">
+                                  <option>10,000 INR</option>
+                                  <option>2,500 INR</option>
+                                  <option>300 USD</option>
+                              </select>
+                          </div>
+                      </div>
+                      <div>
+                          <label className="form-label">Transaction ID & Date <span className="text-red-500">*</span></label>
+                          <input required type="text" name="TransactionDetails" value={formData.TransactionDetails} onChange={handleChange} className="form-input" placeholder="e.g., UPI Ref 123456, Date: 25/11/2025" />
+                      </div>
+                  </div>
+
+                  <div>
+                      <label className="form-label">How are you interested in GI & HPB Pathology?<span className="text-red-500">*</span></label>
+                      <select name="Interest" value={formData.Interest} onChange={handleChange} className="form-input">
+                          <option>I am a gastrointestinal & hepatopancreatobiliary pathologist</option>
+                          <option>I am a PG student interested in this field of pathology</option>
+                          <option>I am a Fellow/ PDCC in gastrointestinal & hepatopancreatobiliary pathology</option>
+                          <option>I am a clinical gastroenterologist/ gastrointestinal surgeon/ radiologist</option>
+                          <option>I am a researcher in this field</option>
+                          <option>I am a pathologist who wants to be associated with this society to remain updated</option>
+                      </select>
+                  </div>
+
+                  <button 
+                    type="submit" 
+                    disabled={regStatus === 'submitting'}
+                    className="w-full bg-primary text-white font-bold py-4 rounded-lg hover:bg-blue-900 transition-colors shadow-lg disabled:opacity-50 text-lg"
+                  >
+                    {regStatus === 'submitting' ? 'Submitting Application...' : 'Submit Application'}
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
+        )}
 
-          {/* RIGHT SIDE: The Form (Takes up 2/3 on large screens) */}
-          <div className="lg:col-span-2 p-8">
-            {status === 'success' ? (
-              <div className="text-center py-12">
-                <span className="material-symbols-outlined text-6xl text-green-500 mb-4">check_circle</span>
-                <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">Application Submitted!</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  We have received your application. An email has been automatically sent to the Secretary.
-                </p>
-                <p className="text-sm text-gray-500">You will also receive a copy of your response via email shortly.</p>
-                <button onClick={() => setStatus(null)} className="mt-8 bg-primary text-white px-6 py-2 rounded font-bold hover:bg-blue-900">
-                  Submit Another
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+        {/* === TAB 2: CHECK STATUS === */}
+        {activeTab === 'status' && (
+          <div className="p-12 max-w-2xl mx-auto min-h-[400px]">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Check Application Status</h2>
+              <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
+                Enter the email address you used during registration to check your status and download documents.
+              </p>
+            </div>
+
+            <div className="flex gap-3 mb-8">
+              <input 
+                type="email" 
+                placeholder="Enter your registered email" 
+                value={checkEmail}
+                onChange={(e) => setCheckEmail(e.target.value)}
+                className="flex-grow px-4 py-3 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:ring-2 focus:ring-primary outline-none"
+              />
+              <button 
+                onClick={handleCheckStatus}
+                disabled={statusResult === 'loading'}
+                className="bg-gold-DEFAULT text-primary font-bold px-6 py-3 rounded hover:bg-yellow-500 disabled:opacity-50"
+              >
+                {statusResult === 'loading' ? 'Checking...' : 'Check Status'}
+              </button>
+            </div>
+
+            {/* RESULTS DISPLAY */}
+            {statusResult === 'found' && memberData && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-gray-50 dark:bg-gray-700 p-8 rounded-xl border border-gray-200 dark:border-gray-600 text-center">
+                <h3 className="text-xl font-bold text-primary dark:text-white mb-2">Hello, {memberData.name}</h3>
                 
-                {/* Personal Details */}
-                <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <label className="form-label">Your Name <span className="text-red-500">*</span></label>
-                        <input required type="text" name="Name" value={formData.Name} onChange={handleChange} className="form-input" />
-                    </div>
-                    <div>
-                         <label className="form-label">Passport Size Photo (Max 1MB) <span className="text-red-500">*</span></label>
-                         <input required type="file" accept="image/*" onChange={handleFileChange} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>
-                    </div>
+                <div className="my-6">
+                   <span className={`px-4 py-2 rounded-full text-sm font-bold ${
+                     memberData.status === 'Authorized' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                   }`}>
+                     Application Status: {memberData.status}
+                   </span>
                 </div>
 
-                <div>
-                    <label className="form-label">Institution & Country <span className="text-red-500">*</span></label>
-                    <input required type="text" name="Institution" value={formData.Institution} onChange={handleChange} className="form-input" />
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <label className="form-label">Email ID <span className="text-red-500">*</span></label>
-                        <input required type="email" name="Email" value={formData.Email} onChange={handleChange} className="form-input" />
+                {memberData.status === 'Authorized' ? (
+                  <div className="space-y-4">
+                    <p className="text-green-600 dark:text-green-300 font-medium">
+                      Congratulations! Your membership has been approved.
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                      {memberData.receipt && (
+                        <a href={memberData.receipt} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 bg-primary text-white py-3 px-4 rounded hover:bg-blue-900 transition-colors">
+                          <span className="material-symbols-outlined">receipt</span> Download Receipt
+                        </a>
+                      )}
+                      {memberData.certificate && (
+                        <a href={memberData.certificate} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 bg-gold-DEFAULT text-primary py-3 px-4 rounded hover:bg-yellow-500 transition-colors">
+                          <span className="material-symbols-outlined">verified</span> Download Certificate
+                        </a>
+                      )}
                     </div>
-                    <div>
-                        <label className="form-label">Phone Number <span className="text-red-500">*</span></label>
-                        <input required type="tel" name="Phone" value={formData.Phone} onChange={handleChange} className="form-input" />
-                    </div>
-                </div>
+                  </div>
+                ) : (
+                  <div className="bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 p-4 rounded text-sm text-left">
+                    <p className="font-bold mb-1">Your application is currently under verification.</p>
+                    <p>The Secretary is verifying your payment details. Once authorized, you will be able to download your Receipt and Certificate from this page.</p>
+                    <p className="mt-2 italic text-xs">Please check back in a few days.</p>
+                  </div>
+                )}
+              </motion.div>
+            )}
 
-                <div>
-                    <label className="form-label">Your Address <span className="text-red-500">*</span></label>
-                    <textarea required name="Address" value={formData.Address} onChange={handleChange} rows="2" className="form-input"></textarea>
-                </div>
+            {statusResult === 'not_found' && (
+              <div className="text-center text-red-500 bg-red-50 dark:bg-red-900/20 p-4 rounded border border-red-100 dark:border-red-800">
+                <p className="font-bold">No application found.</p>
+                <p className="text-sm">Please check the email spelling or ensure you have submitted a registration form.</p>
+              </div>
+            )}
 
-                {/* Professional Status */}
-                <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg space-y-4 border border-gray-200 dark:border-gray-600">
-                    <div>
-                        <label className="form-label mb-2 block">Are you a practicing Pathologist? <span className="text-red-500">*</span></label>
-                        <div className="flex gap-4">
-                            <label className="flex items-center"><input type="radio" name="Practicing" value="Yes" checked={formData.Practicing === 'Yes'} onChange={handleChange} className="mr-2" /> Yes</label>
-                            <label className="flex items-center"><input type="radio" name="Practicing" value="No" checked={formData.Practicing === 'No'} onChange={handleChange} className="mr-2" /> No</label>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label className="form-label">If PG student, PhD student or Fellow, specify subspecialty:</label>
-                        <input type="text" name="StudentStatus" value={formData.StudentStatus} onChange={handleChange} className="form-input" placeholder="e.g., 2nd Year PG, GI Pathology Fellow" />
-                    </div>
-                </div>
-
-                {/* Membership Selection */}
-                <div className="p-4 border-2 border-gold-DEFAULT/30 rounded-lg space-y-4 bg-yellow-50/50 dark:bg-gray-800">
-                    <h4 className="font-bold text-primary dark:text-white border-b border-gold-DEFAULT/20 pb-2">Membership & Payment</h4>
-                    
-                    <div className="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="form-label">Membership Type <span className="text-red-500">*</span></label>
-                            <select name="MembershipType" value={formData.MembershipType} onChange={handleChange} className="form-input">
-                                <option>Life Membership</option>
-                                <option>Ad Hoc Membership (For 3 years)</option>
-                                <option>Associate Life Membership</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label className="form-label">Amount Paid <span className="text-red-500">*</span></label>
-                            <select name="Amount" value={formData.Amount} onChange={handleChange} className="form-input">
-                                <option>10,000 INR</option>
-                                <option>2,500 INR</option>
-                                <option>300 USD</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label className="form-label">Transaction Details & Date <span className="text-red-500">*</span></label>
-                        <input required type="text" name="TransactionDetails" value={formData.TransactionDetails} onChange={handleChange} className="form-input" placeholder="e.g., UPI Ref: 1234567890, Date: 25/11/2025" />
-                    </div>
-                </div>
-
-                {/* Interest */}
-                <div>
-                    <label className="form-label">How are you interested in GI & HPB Pathology? <span className="text-red-500">*</span></label>
-                    <select name="Interest" value={formData.Interest} onChange={handleChange} className="form-input">
-                        <option>I am a gastrointestinal & hepatopancreatobiliary pathologist</option>
-                        <option>I am a PG student interested in this field of pathology</option>
-                        <option>I am a Fellow/ PDCC in gastrointestinal & hepatopancreatobiliary pathology</option>
-                        <option>I am a clinical gastroenterologist/ gastrointestinal surgeon/ radiologist</option>
-                        <option>I am a researcher in this field</option>
-                        <option>I am a pathologist who wants to be associated with this society to remain updated</option>
-                    </select>
-                </div>
-
-                <button 
-                  type="submit" 
-                  disabled={status === 'submitting'}
-                  className="w-full bg-primary text-white font-bold py-4 rounded-lg hover:bg-blue-900 transition-colors shadow-lg disabled:opacity-50 text-lg"
-                >
-                  {status === 'submitting' ? 'Submitting Application...' : 'Submit Application'}
-                </button>
-
-              </form>
+            {statusResult === 'error' && (
+              <div className="text-center text-red-500">
+                <p>Unable to connect to the server. Please try again later.</p>
+              </div>
             )}
           </div>
-        </div>
-      </div>
+        )}
 
-      {/* Style Helper */}
+      </div>
+      
+      {/* CSS for form elements */}
       <style>{`
         .form-label { display: block; font-size: 0.875rem; font-weight: 600; color: #4B5563; margin-bottom: 0.25rem; }
         .dark .form-label { color: #D1D5DB; }

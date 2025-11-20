@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import { motion } from 'framer-motion'; 
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 // 2. Define variants
@@ -201,7 +201,7 @@ const Membership = () => {
 
             {/* 7. Animated button */}
             <motion.div
-              className="text-center"
+              className="text-center flex flex-col sm:flex-row justify-center gap-4"
               variants={sectionVariant}
               initial="hidden"
               whileInView="visible"
@@ -223,6 +223,12 @@ https://docs.google.com/forms/d/e/1FAIpQLScNrIfWN3eX4XEBRhnCF9rXUHXooTii994i3G8n
                 className="inline-block bg-primary text-white font-bold py-4 px-10 rounded-lg text-lg transition-opacity duration-300"
               >
                 Join Now
+              </Link>
+              <Link
+                to="/join-membership"
+                className="inline-block bg-white border-2 border-primary text-primary font-bold py-4 px-10 rounded-lg text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:bg-gray-50"
+              >
+                Download Certificate
               </Link>
             </motion.div>
           </div>
