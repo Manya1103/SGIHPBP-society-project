@@ -2,6 +2,7 @@ import React from 'react';
 import Layout from '../components/Layout';
 import { motion } from 'framer-motion';
 import eventFlyer from '../assets/1st-Annual-CME-event.pdf';
+import { Link } from 'react-router-dom'
 
 // Animation variants
 const containerVariants = {
@@ -99,7 +100,7 @@ const AcademicsEvents = () => {
               </motion.a>
 
               {/* 2. Existing Register Button (now centered) */}
-              <motion.a
+              {/* <motion.a
                 className="bg-secondary text-primary font-bold py-3 px-8 rounded-full shadow-lg transition-opacity duration-300 whitespace-nowrap text-center"
                 href="https://forms.gle/cA5SJdTV4QLrCQPj8"
                 target="_blank"
@@ -108,7 +109,13 @@ const AcademicsEvents = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 Register Now
-              </motion.a>
+              </motion.a> */}
+              <Link
+                to="/event-registration" // Use Link component from react-router-dom
+                className="bg-secondary text-primary font-bold py-3 px-8 rounded-full shadow-lg transition-opacity duration-300 whitespace-nowrap text-center hover:bg-yellow-500"
+              >
+                Register Now
+              </Link>
             </div>
           </motion.div>
 

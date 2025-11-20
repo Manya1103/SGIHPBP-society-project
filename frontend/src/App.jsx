@@ -16,6 +16,7 @@ import JournalSearch from './pages/JournalSearch'
 import CaseOfTheMonth from './pages/CaseOfTheMonth'
 import MembersDetails from './pages/MemberDetails'
 import MembershipRegistration from './pages/MembershipRegistration';
+import EventRegistration from './pages/EventRegistration';
 
 function App() {
   const location = useLocation()
@@ -40,6 +41,7 @@ function App() {
           <Route path="/journal-search" element={<JournalSearch />} />
           <Route path="/case-of-the-month" element={<CaseOfTheMonth />} />
           <Route path="/join-membership" element={<MembershipRegistration />} />
+          <Route path="/event-registration" element={<EventRegistration />} />
           {/* <Route path="/admin" element={<Admin />} /> */}
         </Routes>
       </AnimatePresence>
