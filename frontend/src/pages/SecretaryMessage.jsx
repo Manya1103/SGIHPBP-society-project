@@ -31,7 +31,7 @@ const SecretaryMessage = () => {
                 Prof Prasenjit Das
               </h2>
               <p className="text-lg text-text-muted-light dark:text-text-muted-dark mt-2">
-                Secretary General, SGIHPBPs of India
+                Secretary General, SGIHPBP's of India
               </p>
             </div>
           </motion.div>
@@ -49,7 +49,7 @@ const SecretaryMessage = () => {
             &nbsp;
 
             <p>
-              I am deeply honored to serve as the Secretary General of the Society of Gastrointestinal and Hepatopancreatobiliary Pathologists of India (SGIHPBPs). I am committed to advancing our society in alignment with our core mission of training, collaboration, research, and academic excellence.
+              I am deeply honored to serve as the Secretary General of the Society of Gastrointestinal and Hepatopancreatobiliary Pathologist's of India (SGIHPBP's). I am committed to advancing our society in alignment with our core mission of training, collaboration, research, and academic excellence.
             </p>
             &nbsp;
             <p>
@@ -57,7 +57,7 @@ const SecretaryMessage = () => {
             </p>
             &nbsp;
             <p>
-              Together, I believe we can guide SGIHPBPs to the forefront of this transformation, fostering excellence in gastrointestinal and hepatopancreatobiliary pathology through our diverse activities. As we stand on the threshold of a new era in healthcare, I am truly excited about the opportunities that await our society.
+              Together, I believe we can guide SGIHPBP's to the forefront of this transformation, fostering excellence in gastrointestinal and hepatopancreatobiliary pathology through our diverse activities. As we stand on the threshold of a new era in healthcare, I am truly excited about the opportunities that await our society.
             </p>
             &nbsp;
             <p>With warm regards,</p>
@@ -65,7 +65,7 @@ const SecretaryMessage = () => {
             <p>
               <strong>Prof Prasenjit Das</strong><br />
               Secretary General,<br />
-              SGIHPBPs of India
+              SGIHPBP's of India
             </p>
           </motion.div>
         </div>

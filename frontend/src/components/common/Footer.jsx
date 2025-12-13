@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/Logo_SGIHPBPS.png';
+import Logo from '../../assets/Logo_SGIHPBPs.png';
 import { motion } from 'framer-motion';
 
 const Footer = () => {
@@ -42,14 +42,14 @@ const Footer = () => {
           <motion.div variants={itemVariants}>
             <div className="flex items-center space-x-3 mb-4">
               <img
-                alt="SGIHPBPs of India Logo"
+                alt="SGIHPBP's of India Logo"
                 className="h-14 w-14"
                 src={Logo}
               />
-              <h3 className="font-display text-lg font-bold">SGIHPBPs of India</h3>
+              <h3 className="font-display text-lg font-bold">SGIHPBP's of India</h3>
             </div>
             <p className="text-sm text-gray-300">
-              The Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists of India.
+              The Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologist's of India.
             </p>
           </motion.div>
 
@@ -116,7 +116,7 @@ const Footer = () => {
                 78, LD Block, PITAMPURA,<br />New Delhi-110034
               </li>
               <li className="text-gray-300">
-                Email: <a href="mailto:sgihpbpsindia2025@gmail.com" className="text-gold-light hover:underline">sgihpbpsindia2025@gmail.com</a>
+                Email: <a href="mailto:SGIHPBP'sindia2025@gmail.com" className="text-gold-light hover:underline">SGIHPBP'sindia2025@gmail.com</a>
               </li>
               <li className="text-gray-300">
                 Phone: <a href="tel:+919873898110" className="text-gold-light hover:underline">9873898110</a>
@@ -126,7 +126,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-700 mt-8 pt-6 text-center text-sm text-gray-400">
-          <p>&copy; 2025 Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists of India. All Rights Reserved.</p>
+          <p>&copy; 2025 Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologist's of India. All Rights Reserved.</p>
           
         </div>
       </div>

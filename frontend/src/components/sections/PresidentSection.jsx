@@ -28,7 +28,7 @@ const PresidentSection = () => {
               Prof Puja Sakhuja
             </h3>
             <p className="text-gold-DEFAULT dark:text-gold-light font-semibold">
-              President, SGIHPBPs
+              President, SGIHPBP's
             </p>
           </motion.div>
           
@@ -38,7 +38,7 @@ const PresidentSection = () => {
             </h2>
             <div className="w-24 h-1 bg-gold-DEFAULT mb-6 mx-auto md:mx-0"></div>
             <p className="text-gray-600 dark:text-gray-200 mb-6 leading-relaxed text-justify">
-              "It gives me great pleasure to extend a warm welcome to all members and colleagues to the Society of Gastrointestinal and Hepatopancreatobiliary Pathologists (SGIHPBPs), of India. Our Society has been established with the vision of advancing the discipline of gastrointestinal and Hepatopancreatobiliary pathology in our country, a field that lies at the crossroads of clinical medicine, surgery, and research."
+              "It gives me great pleasure to extend a warm welcome to all members and colleagues to the Society of Gastrointestinal and Hepatopancreatobiliary Pathologist's (SGIHPBP's), of India. Our Society has been established with the vision of advancing the discipline of gastrointestinal and Hepatopancreatobiliary pathology in our country, a field that lies at the crossroads of clinical medicine, surgery, and research."
             </p>
             <motion.div
               whileHover={{ scale: 0.95 }}

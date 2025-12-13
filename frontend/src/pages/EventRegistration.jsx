@@ -5,7 +5,7 @@ import PaymentQR from '../assets/payment-qr.png';
 const EventRegistration = () => {
   const [formData, setFormData] = useState({
     action: 'register_event', 
-    EventName: '1st Annual CME of SGIHPBPs', 
+    EventName: "1st Annual CME of SGIHPB's", 
     Name: '',
     Institute: '',
     Designation: 'PG student',
@@ -100,7 +100,7 @@ const EventRegistration = () => {
       <div className="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-2xl overflow-hidden">
         <div className="bg-secondary text-primary p-8 text-center">
           <h1 className="text-3xl font-bold font-display">1st Annual CME Registration</h1>
-          <p className="mt-2 font-semibold">SGIHPBPs of India | Feb 27-28, 2026 | GB Pant Hospital GIPMER, New Delhi</p>
+          <p className="mt-2 font-semibold">SGIHPBP's of India | Feb 27-28, 2026 | GB Pant Hospital GIPMER, New Delhi</p>
         </div>
 
         <div className="grid lg:grid-cols-3">
@@ -124,7 +124,7 @@ const EventRegistration = () => {
             <div className="bg-white dark:bg-gray-600 p-5 rounded-lg shadow-sm border border-gray-200 dark:border-gray-500 text-center">
                <p className="font-bold text-left mb-2">Bank Transfer</p>
                <p className="text-xs text-left mb-4">
-                 Account: SGIHPBPs<br/>Bank: Bank of Baroda<br/>A/c No: 26020100024967<br/>IFSC: BARB0RAMEEL (5th is Zero)
+                 Account: SGIHPBP's<br/>Bank: Bank of Baroda<br/>A/c No: 26020100024967<br/>IFSC: BARB0RAMEEL (5th is Zero)
                </p>
                <img src={PaymentQR} className="w-32 h-32 mx-auto border rounded mb-2"/>
                <p className="text-xs">Scan to Pay</p>
@@ -184,7 +184,7 @@ const EventRegistration = () => {
                 </div>
 
                 <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded border border-gray-200 dark:border-gray-600">
-                    <label className="form-label mb-2">Are you a Member of SGIHPBPs? <span className="text-red-500">*</span></label>
+                    <label className="form-label mb-2">Are you a Member of SGIHPBP's? <span className="text-red-500">*</span></label>
                     <div className="flex gap-6">
                         <label className="flex items-center"><input type="radio" name="IsMember" value="Yes" checked={formData.IsMember === 'Yes'} onChange={handleChange} className="mr-2" /> Yes</label>
                         <label className="flex items-center"><input type="radio" name="IsMember" value="No" checked={formData.IsMember === 'No'} onChange={handleChange} className="mr-2" /> No</label>

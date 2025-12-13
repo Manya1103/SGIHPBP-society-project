@@ -28,7 +28,7 @@ const SecretarySection = () => {
               Prof Prasenjit Das
             </h3>
             <p className="text-gold-DEFAULT dark:text-gold-light font-semibold">
-              Secretary General, SGIHPBPs
+              Secretary General, SGIHPBP's
             </p>
           </motion.div>
 
@@ -41,7 +41,7 @@ const SecretarySection = () => {
               Dear Members and Colleagues,
             </p>
             <p className="text-gray-600 dark:text-gray-200 mb-6 leading-relaxed text-justify">
-              "I am deeply honored to serve as the Secretary General of the Society of Gastrointestinal and Hepatopancreatobiliary Pathologists of India (SGIHPBPs). I am committed to advancing our society in alignment with our core mission of training, collaboration, research, and academic excellence."
+              "I am deeply honored to serve as the Secretary General of the Society of Gastrointestinal and Hepatopancreatobiliary Pathologist's of India (SGIHPBP's). I am committed to advancing our society in alignment with our core mission of training, collaboration, research, and academic excellence."
             </p>
             <motion.div
               whileHover={{ scale: 0.95 }}

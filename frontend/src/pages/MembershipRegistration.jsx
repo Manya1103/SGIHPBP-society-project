@@ -276,7 +276,7 @@ const MembershipRegistration = () => {
                 <div className="bg-white dark:bg-gray-600 p-5 rounded-lg shadow-sm border border-gray-200 dark:border-gray-500">
                   <h4 className="font-bold text-lg mb-3 text-primary dark:text-white border-b pb-2">Bank Transfer</h4>
                   <div className="space-y-2">
-                      <p><strong>Account Name:</strong> Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists</p>
+                      <p><strong>Account Name:</strong> Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologist's</p>
                       <p><strong>Bank:</strong> Bank of Baroda</p>
                       <p><strong>Account No:</strong> 26020100024967</p>
                       <p><strong>IFSC Code:</strong> BARB0RAMEEL <br/><span className="text-xs text-red-500">(5th character is Zero)</span></p>

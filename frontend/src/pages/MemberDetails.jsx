@@ -63,7 +63,7 @@ const MembersDetails = () => {
       {/* Header */}
       <section className="bg-primary text-white py-12 text-center">
         <h1 className="text-3xl font-bold font-display">Member Directory</h1>
-        <p className="opacity-90">Official Registry of SGIHPBPs Members</p>
+        <p className="opacity-90">Official Registry of SGIHPBP's Members</p>
       </section>
 
       <section className="container mx-auto px-4 py-12">

@@ -66,7 +66,7 @@ const Membership = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            Join a distinguished community of pathologists dedicated to advancing the field.
+            Join a distinguished community of Pathologist's dedicated to advancing the field.
           </motion.p>
         </div>
       </section>
@@ -89,7 +89,7 @@ const Membership = () => {
               </h2>
               <div className="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-lg border border-border-light dark:border-border-dark text-justify ">
                 <p className="text-base md:text-lg leading-relaxed text-gray-700 dark:text-gray-300">
-                  Membership of the Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists of India (SGIHPBPs) is open to medical professionals and scientists who have a significant interest and are actively involved in the field of gastrointestinal and hepato-pancreatobiliary pathology. Applicants should hold a postgraduate medical degree (MD/DNB) in Pathology or an equivalent qualification recognized by the Medical Council of India. Membership is also available to scientists with a Ph.D. or equivalent degree working in a relevant field. All applications are subject to review and approval by the governing body of the society.
+                  Membership of the Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologist's of India (SGIHPBP's) is open to medical professionals and scientists who have a significant interest and are actively involved in the field of gastrointestinal and hepato-pancreatobiliary pathology. Applicants should hold a postgraduate medical degree (MD/DNB) in Pathology or an equivalent qualification recognized by the Medical Council of India. Membership is also available to scientists with a Ph.D. or equivalent degree working in a relevant field. All applications are subject to review and approval by the governing body of the society.
                 </p>
               </div>
             </motion.div>

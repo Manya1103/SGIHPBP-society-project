@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/Logo_SGIHPBPS.png';
+import Logo from '../../assets/Logo_SGIHPBPs.png';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = ({ currentPage }) => {
@@ -133,12 +133,12 @@ const Header = ({ currentPage }) => {
           <div className="flex items-center justify-between w-full">
             <Link to="/" className="flex items-center space-x-3">
               <motion.img
-                alt="SGIHPBPs of India Logo"
+                alt="SGIHPBP's of India Logo"
                 className="h-16 w-16" // Increased logo size
                 src={Logo}
               />
               <div className="font-display font-bold text-sm text-primary dark:text-white md:block w-48 leading-tight">
-                Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists of India
+                Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologist's of India
               </div>
             </Link>
 
@@ -215,9 +215,9 @@ const Header = ({ currentPage }) => {
           >
             <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700 h-20">
               <Link to="/" className="flex items-center space-x-3" onClick={() => setIsMenuOpen(false)}>
-                <img alt="SGIHPBPs of India Logo" className="h-16 w-16" src={Logo} />
+                <img alt="SGIHPBP's of India Logo" className="h-16 w-16" src={Logo} />
                 <div className="font-display font-bold text-sm text-primary dark:text-white w-48 leading-tight">
-                  Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists of India
+                  Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologist's of India
                 </div>
               </Link>
               <button className="text-primary dark:text-white" onClick={() => setIsMenuOpen(false)}>

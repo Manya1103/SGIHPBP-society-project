@@ -31,7 +31,7 @@ const PresidentMessage = () => {
                                 Prof. Puja Sakhuja
                             </h2>
                             <p className="text-lg text-text-muted-light dark:text-text-muted-dark mt-2">
-                                President, SGIHPBPs of India
+                                President, SGIHPBP's of India
                             </p>
                         </div>
                     </motion.div>
@@ -44,7 +44,7 @@ const PresidentMessage = () => {
                         transition={{ duration: 0.5, delay: 0.4 }}
                     >
                         <p>
-                            It gives me great pleasure to extend a warm welcome to all members and colleagues to the Society of Gastrointestinal and Hepatopancreatobiliary Pathologists (SGIHPBPs), of India. Our Society has been established with the vision of advancing the discipline of gastrointestinal and Hepatopancreatobiliary pathology in our country, a field that lies at the crossroads of clinical medicine, surgery, and research.
+                            It gives me great pleasure to extend a warm welcome to all members and colleagues to the Society of Gastrointestinal and Hepatopancreatobiliary Pathologist's (SGIHPBP's), of India. Our Society has been established with the vision of advancing the discipline of gastrointestinal and Hepatopancreatobiliary pathology in our country, a field that lies at the crossroads of clinical medicine, surgery, and research.
                         </p>
                         &nbsp;
                         <p>
@@ -66,7 +66,7 @@ const PresidentMessage = () => {
                         <p>
                             <strong>Prof. Puja Sakhuja</strong><br />
                             President,<br />
-                            SGIHPBPs of India
+                            SGIHPBP's of India
                         </p>
                     </motion.div>
                 </div>

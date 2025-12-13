@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom'; // Import Link for the button
-import Logo from '../../assets/Logo_SGIHPBPS.png';
+import Logo from '../../assets/Logo_SGIHPBPs.png';
 
 // 1. Define animation variants for the container and its items
 const containerVariants = {
@@ -55,7 +55,7 @@ const HeroSection = () => {
           {/* 4. Color Enhancement:
               - Used the site's accent color (gold) for key words.
           */}
-          Welcome to the <span className="text-gold-light">Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists of India</span> (SGIHPBPs)
+          Welcome to the <span className="text-gold-light">Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologist's of India</span> (SGIHPBP's of India)
         </motion.h1>
         
         <motion.p 

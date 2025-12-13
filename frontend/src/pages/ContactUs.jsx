@@ -15,7 +15,7 @@ const ContactUs = () => {
   });
 
   const [contactInfo] = useState({
-    officeName: 'SGIHPBPs Registered Office',
+    officeName: "SGIHPBP's Registered Office",
     address: '78, LD Block, PITAMPURA,\nNew Delhi-110034',
     phone: '+919873898110',
     email: 'sgihpbpsindia2025@gmail.com'
