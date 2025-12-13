@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/Logo_SGIHPBPSpng';
+import Logo from '../../assets/Logo_SGIHPBPS.png';
 import { motion } from 'framer-motion';
 
 const Footer = () => {
