@@ -10,13 +10,24 @@ const Publications = () => {
   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-_TLEQ-trht5jI2klTi4GJCL-cYJtbVfRfjkNjqlPTJzd43UXqfSemFGpDKGjsNyKbQ/exec";
 
   useEffect(() => {
+    // 1. Check Session Storage FIRST
+    const cachedData = sessionStorage.getItem("publications_data");
+    if (cachedData) {
+      setPublications(JSON.parse(cachedData));
+      setLoading(false);
+    }
+
+    // 2. Fetch fresh data
     fetch(GOOGLE_SCRIPT_URL, {
       method: "POST",
       body: JSON.stringify({ action: "get_publications" })
     })
     .then(res => res.json())
     .then(data => {
-      if (data.result === 'success') setPublications(data.data);
+      if (data.result === 'success') {
+        setPublications(data.data);
+        sessionStorage.setItem("publications_data", JSON.stringify(data.data));
+      }
       setLoading(false);
     })
     .catch(err => {
@@ -28,21 +39,16 @@ const Publications = () => {
   // --- HELPER: CONVERT DRIVE VIEW LINK TO DOWNLOAD LINK ---
   const getDownloadLink = (link) => {
     if (!link) return "";
-    
-    // Check if it's a Google Drive link
     if (link.includes("drive.google.com") || link.includes("docs.google.com")) {
       try {
-        // Extract the File ID using Regex
         const idMatch = link.match(/\/d\/(.+?)(\/|$)/);
         if (idMatch && idMatch[1]) {
-          // Return the specific 'export=download' URL
           return `https://drive.google.com/uc?export=download&id=${idMatch[1]}`;
         }
       } catch (e) {
         console.error("Error parsing Drive link", e);
       }
     }
-    // If not a drive link (or parsing failed), return original
     return link;
   };
 
@@ -81,9 +87,20 @@ const Publications = () => {
           />
         </div>
 
-        {loading ? (
-          <div className="text-center py-20">
-             <span className="material-symbols-outlined animate-spin text-4xl text-primary">progress_activity</span>
+        {loading && !publications.length ? (
+          <div className="grid gap-8">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="flex flex-col gap-4 rounded-xl border bg-white p-6 shadow-sm animate-pulse dark:bg-gray-800 dark:border-gray-700">
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24 mb-1"></div>
+                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-1"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-2"></div>
+                <div className="space-y-2">
+                   <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
+                   <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
+                </div>
+                <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-32 mt-2"></div>
+              </div>
+            ))}
           </div>
         ) : (
           <motion.div className="grid gap-8">
@@ -104,8 +121,8 @@ const Publications = () => {
                   
                   {pub.linkurl && (
                     <a 
-                      href={getDownloadLink(pub.linkurl)} // <--- USING THE HELPER FUNCTION
-                      target="_blank" // Still keep this so it doesn't navigate away if download fails
+                      href={getDownloadLink(pub.linkurl)}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="self-start inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-900 transition-colors"
                     >

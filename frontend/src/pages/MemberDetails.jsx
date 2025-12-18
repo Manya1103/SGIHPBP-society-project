@@ -9,12 +9,19 @@ const MembersDetails = () => {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // PASTE YOUR DEPLOYED GOOGLE SCRIPT URL HERE
   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-_TLEQ-trht5jI2klTi4GJCL-cYJtbVfRfjkNjqlPTJzd43UXqfSemFGpDKGjsNyKbQ/exec";
 
   // Fetch Data
   useEffect(() => {
     const fetchMembers = async () => {
+      // 1. Check Session Storage
+      const cachedData = sessionStorage.getItem("members_data");
+      if (cachedData) {
+        setMembers(JSON.parse(cachedData));
+        setLoading(false);
+      }
+
+      // 2. Fetch fresh data
       try {
         const response = await fetch(`${GOOGLE_SCRIPT_URL}?t=${new Date().getTime()}`, {
           method: "POST",
@@ -23,6 +30,7 @@ const MembersDetails = () => {
         const data = await response.json();
         if (data.result === 'success') {
           setMembers(data.members);
+          sessionStorage.setItem("members_data", JSON.stringify(data.members));
         }
       } catch (error) {
         console.error("Error fetching members:", error);
@@ -37,7 +45,6 @@ const MembersDetails = () => {
   const filteredMembers = useMemo(() => {
     const lowerSearch = searchTerm.toLowerCase();
     return members.filter(member => {
-      // Search across useful fields
       const searchMatch = 
         (member.name || "").toLowerCase().includes(lowerSearch) ||
         (member.memberId || "").toLowerCase().includes(lowerSearch) ||
@@ -45,7 +52,6 @@ const MembersDetails = () => {
         (member.email || "").toLowerCase().includes(lowerSearch) ||
         (member.phone || "").toString().includes(lowerSearch);
       
-      // Category Filter
       let categoryMatch = true;
       if (selectedCategory !== 'All') {
          categoryMatch = (member.category || "").toLowerCase().includes(selectedCategory.toLowerCase());
@@ -60,15 +66,12 @@ const MembersDetails = () => {
       animate={{ opacity: 1 }} 
       className="min-h-screen bg-gray-50 dark:bg-gray-900"
     >
-      {/* Header */}
       <section className="bg-primary text-white py-12 text-center">
         <h1 className="text-3xl font-bold font-display">Member Directory</h1>
         <p className="opacity-90">Official Registry of SGIHPBP's Members</p>
       </section>
 
       <section className="container mx-auto px-4 py-12">
-        
-        {/* Search & Filters */}
         <div className="flex flex-col lg:flex-row justify-between items-center gap-6 mb-8">
            <div className="relative w-full lg:w-2/4">
              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
@@ -98,11 +101,9 @@ const MembersDetails = () => {
            </div>
         </div>
 
-        {/* --- THE TABLE --- */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left border-collapse">
-              {/* Table Head */}
               <thead className="bg-primary text-white uppercase text-xs tracking-wider">
                 <tr>
                   <th className="px-4 py-4 border-b border-gray-600 min-w-[60px]">Serial No</th>
@@ -120,17 +121,24 @@ const MembersDetails = () => {
                 </tr>
               </thead>
 
-              {/* Table Body */}
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {loading ? (
-                  <tr>
-                    <td colSpan="12" className="px-6 py-16 text-center">
-                       <div className="flex flex-col items-center justify-center gap-2 text-gray-500">
-                         <span className="material-symbols-outlined animate-spin text-3xl">progress_activity</span>
-                         <span>Loading Directory Data...</span>
-                       </div>
-                    </td>
-                  </tr>
+                {loading && !members.length ? (
+                  Array(8).fill(0).map((_, index) => (
+                    <tr key={index} className="animate-pulse border-b border-gray-100 dark:border-gray-700">
+                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-8 mx-auto"></div></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-32"></div></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-16"></div></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-20"></div></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-40"></div></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-32"></div></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24"></div></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24"></div></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-20"></div></td>
+                      <td className="px-4 py-4"><div className="h-5 bg-gray-200 dark:bg-gray-700 rounded-full w-16"></div></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24"></div></td>
+                      <td className="px-4 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24"></div></td>
+                    </tr>
+                  ))
                 ) : filteredMembers.length > 0 ? (
                   filteredMembers.map((member, i) => (
                     <tr key={i} className="hover:bg-blue-50 dark:hover:bg-gray-700/50 transition-colors even:bg-gray-50 dark:even:bg-gray-800/50">
@@ -174,7 +182,6 @@ const MembersDetails = () => {
             </table>
           </div>
           
-          {/* Footer Note */}
           <div className="bg-gray-100 dark:bg-gray-900/50 px-6 py-3 border-t border-gray-200 dark:border-gray-700 text-xs text-gray-500 flex justify-between items-center">
             <span>Showing {filteredMembers.length} Members</span>
             <span className="flex items-center gap-1"><span className="material-symbols-outlined text-sm">swipe</span> Scroll horizontally to view more columns</span>
