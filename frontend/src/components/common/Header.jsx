@@ -88,7 +88,7 @@ const Header = ({ currentPage }) => {
       page: 'membership', // This will highlight for /membership and /members-details
       dropdown: [
         { to: '/membership', label: 'Become a Member', icon: 'card_membership' },
-        { to: '/members-details', label: 'Member Directory', icon: 'list_alt' },
+        { to: '/members-directory', label: 'Member Directory', icon: 'list_alt' },
       ],
     },
     // { to: '/membership', label: 'Membership', page: 'membership', icon: 'card_membership' }, // This line is replaced
@@ -115,7 +115,7 @@ const Header = ({ currentPage }) => {
     // 2. === MODIFICATION START ===
     // Update mobile links
     { to: '/membership', label: 'Become a Member', page: 'membership', icon: 'card_membership' },
-    { to: '/members-details', label: 'Member Directory', page: 'members-details', icon: 'list_alt' },
+    { to: '/members-directory', label: 'Member Directory', page: 'members-directory', icon: 'list_alt' },
     // { to: '/membership', label: 'Membership', page: 'membership', icon: 'card_membership' }, // This line is replaced
     // 2. === MODIFICATION END ===
     { to: '/academics-events', label: 'Upcoming Events', page: 'academics-events', icon: 'school' },

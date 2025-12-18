@@ -34,7 +34,7 @@ function App() {
           <Route path="/secretary-message" element={<SecretaryMessage />} />
           <Route path="/president-message" element={<PresidentMessage />} />
           <Route path="/membership" element={<Membership />} />
-          <Route path="/members-details" element={<MembersDetails />} />
+          <Route path="/members-directory" element={<MembersDetails />} />
           <Route path="/academics-events" element={<AcademicsEvents />} />
           <Route path="/publications" element={<Publications />} />
           <Route path="/contact-us" element={<ContactUs />} />
