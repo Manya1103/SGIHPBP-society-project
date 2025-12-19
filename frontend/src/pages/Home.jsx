@@ -92,7 +92,7 @@ const Home = () => {
                 </div>
 
                 <div className="transform scale-90 sm:scale-100 mb-6">
-                  <CountdownTimer targetDate={upcomingEvent.timerdate || upcomingEvent.date} />
+                  <CountdownTimer targetDate={upcomingEvent.timerdate || upcomingEvent.date} variant="home" />
                 </div>
 
                 <div className="mt-2">
