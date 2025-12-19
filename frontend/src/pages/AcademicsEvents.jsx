@@ -1,24 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import CountdownTimer from '../components/common/CountdownTimer'; 
 
 const AcademicsEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // YOUR SCRIPT URL
+  // Replace with your actual deployed Web App URL
   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-_TLEQ-trht5jI2klTi4GJCL-cYJtbVfRfjkNjqlPTJzd43UXqfSemFGpDKGjsNyKbQ/exec";
 
   useEffect(() => {
     const fetchEvents = async () => {
-      // 1. Check Session Storage FIRST for instant load
-      const cachedData = sessionStorage.getItem("events_data");
-      if (cachedData) {
-        setEvents(JSON.parse(cachedData));
-        setLoading(false); 
-      }
-
       try {
-        // 2. Fetch fresh data in background
+        // 1. Try to fetch fresh data directly
         const response = await fetch(GOOGLE_SCRIPT_URL, {
            method: "POST",
            body: JSON.stringify({ action: "get_events" })
@@ -27,11 +21,18 @@ const AcademicsEvents = () => {
         
         if (data.result === 'success') {
           setEvents(data.data);
-          // 3. Update Storage
+          // Update session storage for other pages to use
           sessionStorage.setItem("events_data", JSON.stringify(data.data));
+        } else {
+            // Fallback to cache if API fails
+            const cachedData = sessionStorage.getItem("events_data");
+            if (cachedData) setEvents(JSON.parse(cachedData));
         }
       } catch (err) {
-        console.error(err);
+        console.error("Failed to fetch events:", err);
+        // Fallback to cache on error
+        const cachedData = sessionStorage.getItem("events_data");
+        if (cachedData) setEvents(JSON.parse(cachedData));
       } finally {
         setLoading(false);
       }
@@ -40,7 +41,6 @@ const AcademicsEvents = () => {
     fetchEvents();
   }, []);
 
-  // --- SKELETON LOADER ---
   const EventSkeleton = () => (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 p-6 md:p-8 flex flex-col md:flex-row gap-6 animate-pulse">
       <div className="flex-grow space-y-4">
@@ -49,15 +49,8 @@ const AcademicsEvents = () => {
            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24"></div>
            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-32"></div>
         </div>
-        <div className="space-y-2">
-           <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
-           <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
-        </div>
       </div>
-      <div className="flex flex-col gap-3 w-full md:w-32">
-         <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
-         <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
-      </div>
+      <div className="w-full md:w-32 h-10 bg-gray-200 dark:bg-gray-700 rounded"></div>
     </div>
   );
 
@@ -81,7 +74,6 @@ const AcademicsEvents = () => {
           <>
             <EventSkeleton />
             <EventSkeleton />
-            <EventSkeleton />
           </>
         ) : events.length > 0 ? (
           events.map((event, i) => (
@@ -101,17 +93,24 @@ const AcademicsEvents = () => {
                 <p className="text-gray-700 dark:text-gray-300 mb-4 whitespace-pre-line">{event.description}</p>
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0 self-start md:self-center">
-                {event.flyerlink && (
-                  <a href={event.flyerlink} target="_blank" rel="noreferrer" className="px-6 py-2 border-2 border-primary text-primary dark:text-white dark:border-white font-bold rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition text-center">
-                    Download
-                  </a>
-                )}
-                {event.registrationlink && (
-                   <a href={event.registrationlink} target="_blank" rel="noreferrer" className="px-6 py-2 bg-yellow-500 text-primary font-bold rounded-full hover:bg-yellow-400 transition text-center shadow-md">
-                     Register Now
-                   </a>
-                )}
+              <div className="flex flex-col items-center md:items-end gap-4 flex-shrink-0 self-start md:self-center w-full md:w-auto mt-4 md:mt-0">
+                <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                  {event.flyerlink && (
+                    <a href={event.flyerlink} target="_blank" rel="noreferrer" className="px-6 py-2 border-2 border-primary text-primary dark:text-white dark:border-white font-bold rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition text-center whitespace-nowrap">
+                      Download
+                    </a>
+                  )}
+                  {event.registrationlink && (
+                     <a href={event.registrationlink} target="_blank" rel="noreferrer" className="px-6 py-2 bg-yellow-500 text-primary font-bold rounded-full hover:bg-yellow-400 transition text-center shadow-md whitespace-nowrap">
+                       Register Now
+                     </a>
+                  )}
+                </div>
+                
+                {/* USE TIMER DATE - fallback to standard date if missing */}
+                <div className="mt-1">
+                   <CountdownTimer targetDate={event.timerdate || event.date} />
+                </div>
               </div>
             </motion.div>
           ))
