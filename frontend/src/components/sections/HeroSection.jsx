@@ -43,13 +43,13 @@ const HeroSection = () => {
           - This 'motion.div' controls the 'staggerChildren' animation.
       */}
       <motion.div 
-        className="container mx-auto px-4 lg:px-6 py-32 md:py-32 lg:py-48 relative z-10 text-center"
+        className="container mx-auto px-4 lg:px-6 py-20 md:py-24 lg:py-32 relative z-10 text-center"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         <motion.h1 
-          className="font-display text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 text-shadow" //
+          className="font-display text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 text-shadow" //
           variants={itemVariants} // Animate as a child item
         >
           {/* 4. Color Enhancement:

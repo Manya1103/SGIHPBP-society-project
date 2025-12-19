@@ -134,10 +134,10 @@ const Header = ({ currentPage }) => {
             <Link to="/" className="flex items-center space-x-3">
               <motion.img
                 alt="SGIHPBP's of India Logo"
-                className="h-16 w-16" // Increased logo size
+                className="h-12 w-12" // Reduced logo size
                 src={Logo}
               />
-              <div className="font-display font-bold text-sm text-primary dark:text-white md:block w-48 leading-tight">
+              <div className="font-display font-bold text-xs sm:text-sm text-primary dark:text-white md:block w-48 leading-tight">
                 Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologist's of India
               </div>
             </Link>
@@ -215,8 +215,8 @@ const Header = ({ currentPage }) => {
           >
             <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700 h-20">
               <Link to="/" className="flex items-center space-x-3" onClick={() => setIsMenuOpen(false)}>
-                <img alt="SGIHPBP's of India Logo" className="h-16 w-16" src={Logo} />
-                <div className="font-display font-bold text-sm text-primary dark:text-white w-48 leading-tight">
+                <img alt="SGIHPBP's of India Logo" className="h-12 w-12" src={Logo} />
+                <div className="font-display font-bold text-xs text-primary dark:text-white w-48 leading-tight">
                   Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologist's of India
                 </div>
               </Link>
