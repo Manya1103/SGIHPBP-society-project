@@ -44,13 +44,32 @@ const AcademicsEvents = () => {
   const EventSkeleton = () => (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 p-6 md:p-8 flex flex-col md:flex-row gap-6 animate-pulse">
       <div className="flex-grow space-y-4">
+        {/* Title */}
         <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+        
+        {/* Meta info (date/loc) */}
         <div className="flex gap-4">
            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24"></div>
            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-32"></div>
         </div>
+
+        {/* Description Text */}
+        <div className="space-y-2 mt-4">
+           <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
+           <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-11/12"></div>
+           <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
+        </div>
       </div>
-      <div className="w-full md:w-32 h-10 bg-gray-200 dark:bg-gray-700 rounded"></div>
+
+      {/* Action Side (Buttons & Timer) */}
+      <div className="flex flex-col items-center md:items-end gap-4 flex-shrink-0 w-full md:w-auto mt-4 md:mt-0">
+        <div className="flex gap-3 w-full justify-center md:justify-end">
+           <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-full w-28"></div>
+           <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-full w-32"></div>
+        </div>
+        {/* Timer Placeholder */}
+        <div className="w-full md:w-64 h-20 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+      </div>
     </div>
   );
 
@@ -72,6 +91,7 @@ const AcademicsEvents = () => {
       <div className="grid gap-6">
         {loading && !events.length ? (
           <>
+            <EventSkeleton />
             <EventSkeleton />
             <EventSkeleton />
           </>
