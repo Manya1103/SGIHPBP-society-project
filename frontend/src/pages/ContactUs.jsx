@@ -21,7 +21,7 @@ const ContactUs = () => {
     email: 'sgihpbpsindia2025@gmail.com'
   });
 
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-_TLEQ-trht5jI2klTi4GJCL-cYJtbVfRfjkNjqlPTJzd43UXqfSemFGpDKGjsNyKbQ/exec";
+  const GOOGLE_SCRIPT_URL = import.meta.env.VITE_API_URL;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

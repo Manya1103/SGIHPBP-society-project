@@ -35,7 +35,7 @@ const MembersDetails = () => {
   // Track if a search has been performed
   const [hasSearched, setHasSearched] = useState(!!initialQuery || initialCat !== 'All');
 
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-_TLEQ-trht5jI2klTi4GJCL-cYJtbVfRfjkNjqlPTJzd43UXqfSemFGpDKGjsNyKbQ/exec";
+  const GOOGLE_SCRIPT_URL = import.meta.env.VITE_API_URL;
 
   // === 2. DATA FETCHING (Server-Side) ===
   const fetchMembers = async (page, search, category) => {

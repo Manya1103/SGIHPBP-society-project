@@ -7,7 +7,7 @@ const AcademicsEvents = () => {
   const [loading, setLoading] = useState(true);
   
   // Replace with your actual deployed Web App URL
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-_TLEQ-trht5jI2klTi4GJCL-cYJtbVfRfjkNjqlPTJzd43UXqfSemFGpDKGjsNyKbQ/exec";
+  const GOOGLE_SCRIPT_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchEvents = async () => {

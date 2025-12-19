@@ -31,7 +31,7 @@ const MembershipRegistration = () => {
   const [memberData, setMemberData] = useState(null);
 
   // Your Google Script URL
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-_TLEQ-trht5jI2klTi4GJCL-cYJtbVfRfjkNjqlPTJzd43UXqfSemFGpDKGjsNyKbQ/exec";
+  const GOOGLE_SCRIPT_URL = import.meta.env.VITE_API_URL;
 
   // --- HANDLERS: REGISTRATION ---
   const handleChange = (e) => {

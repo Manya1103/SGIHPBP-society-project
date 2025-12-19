@@ -35,7 +35,7 @@ const EventRegistration = () => {
   const [status, setStatus] = useState(null);
   const [errors, setErrors] = useState({});
 
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-_TLEQ-trht5jI2klTi4GJCL-cYJtbVfRfjkNjqlPTJzd43UXqfSemFGpDKGjsNyKbQ/exec";
+  const GOOGLE_SCRIPT_URL = import.meta.env.VITE_API_URL;
 
   // --- HELPER TO RENDER BOLD TEXT ---
   // This function looks for text wrapped in *asterisks* and makes it bold
