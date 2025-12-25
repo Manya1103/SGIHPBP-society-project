@@ -95,13 +95,24 @@ const Home = () => {
                   <CountdownTimer targetDate={upcomingEvent.timerdate || upcomingEvent.date} variant="home" />
                 </div>
 
-                <div className="mt-2">
+                <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center w-full">
                   <a
                     href="/academics-events"
-                    className="group inline-flex items-center gap-2 bg-primary hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 shadow-md hover:shadow-lg"
+                    className="group inline-flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 shadow-md hover:shadow-lg"
                   >
                     View Event Details
                     <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                  </a>
+                  
+                  <a
+                    href="/guidelines.jpg"
+                    download="Abstract_Submission_Guidelines.jpg"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center justify-center gap-2 bg-white border-2 border-primary text-primary hover:bg-gray-50 px-6 py-3 rounded-full font-semibold transition-all duration-300 shadow-md hover:shadow-lg"
+                  >
+                    View Abstract Submission Guidelines
+                    <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">description</span>
                   </a>
                 </div>
               </div>

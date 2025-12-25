@@ -111,10 +111,23 @@ const AcademicsEvents = () => {
                   <div className="flex items-center"><span className="material-symbols-outlined mr-2">location_on</span>{event.location}</div>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300 mb-4 whitespace-pre-line">{event.description}</p>
+                
+                <div className="mt-4">
+                  <a 
+                    href="/guidelines.jpg" 
+                    download="Abstract_Submission_Guidelines.jpg"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-base font-bold text-primary hover:text-[#b39020] transition-colors group"
+                  >
+                    <span className="material-symbols-outlined text-lg group-hover:scale-110 transition-transform">download</span>
+                    Download Abstract Submission Guidelines
+                  </a>
+                </div>
               </div>
               
               <div className="flex flex-col items-center md:items-end gap-4 flex-shrink-0 self-start md:self-center w-full md:w-auto mt-4 md:mt-0">
-                <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto flex-wrap justify-center md:justify-end">
                   {event.flyerlink && (
                     <a href={event.flyerlink} target="_blank" rel="noreferrer" className="px-6 py-2 border-2 border-primary text-primary dark:text-white dark:border-white font-bold rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition text-center whitespace-nowrap">
                       Download
