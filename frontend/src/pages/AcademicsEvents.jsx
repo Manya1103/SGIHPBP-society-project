@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import CountdownTimer from '../components/common/CountdownTimer'; 
+import CountdownTimer from '../components/common/CountdownTimer';
 
 const AcademicsEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   // Replace with your actual deployed Web App URL
   const GOOGLE_SCRIPT_URL = import.meta.env.VITE_API_URL;
 
@@ -14,19 +14,19 @@ const AcademicsEvents = () => {
       try {
         // 1. Try to fetch fresh data directly
         const response = await fetch(GOOGLE_SCRIPT_URL, {
-           method: "POST",
-           body: JSON.stringify({ action: "get_events" })
+          method: "POST",
+          body: JSON.stringify({ action: "get_events" })
         });
         const data = await response.json();
-        
+
         if (data.result === 'success') {
           setEvents(data.data);
           // Update session storage for other pages to use
           sessionStorage.setItem("events_data", JSON.stringify(data.data));
         } else {
-            // Fallback to cache if API fails
-            const cachedData = sessionStorage.getItem("events_data");
-            if (cachedData) setEvents(JSON.parse(cachedData));
+          // Fallback to cache if API fails
+          const cachedData = sessionStorage.getItem("events_data");
+          if (cachedData) setEvents(JSON.parse(cachedData));
         }
       } catch (err) {
         console.error("Failed to fetch events:", err);
@@ -46,26 +46,26 @@ const AcademicsEvents = () => {
       <div className="flex-grow space-y-4">
         {/* Title */}
         <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
-        
+
         {/* Meta info (date/loc) */}
         <div className="flex gap-4">
-           <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24"></div>
-           <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-32"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-32"></div>
         </div>
 
         {/* Description Text */}
         <div className="space-y-2 mt-4">
-           <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
-           <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-11/12"></div>
-           <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-11/12"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
         </div>
       </div>
 
       {/* Action Side (Buttons & Timer) */}
       <div className="flex flex-col items-center md:items-end gap-4 flex-shrink-0 w-full md:w-auto mt-4 md:mt-0">
         <div className="flex gap-3 w-full justify-center md:justify-end">
-           <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-full w-28"></div>
-           <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-full w-32"></div>
+          <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-full w-28"></div>
+          <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-full w-32"></div>
         </div>
         {/* Timer Placeholder */}
         <div className="w-full md:w-64 h-20 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
@@ -111,21 +111,24 @@ const AcademicsEvents = () => {
                   <div className="flex items-center"><span className="material-symbols-outlined mr-2">location_on</span>{event.location}</div>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300 mb-4 whitespace-pre-line">{event.description}</p>
-                
-                <div className="mt-4">
-                  <a 
-                    href="/guidelines.jpg" 
-                    download="Abstract_Submission_Guidelines.jpg"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-base font-bold text-primary hover:text-[#b39020] transition-colors group"
-                  >
-                    <span className="material-symbols-outlined text-lg group-hover:scale-110 transition-transform">download</span>
-                    Download Abstract Submission Guidelines
-                  </a>
-                </div>
+
+                {event.abstractguidelines && (
+                  <div className="mt-4">
+                    <a
+                      // href="/guidelines.jpg" 
+                      href={event.abstractguidelines}
+                      // download="Abstract_Submission_Guidelines.jpg"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-base font-bold text-primary hover:text-[#b39020] transition-colors group"
+                    >
+                      <span className="material-symbols-outlined text-lg group-hover:scale-110 transition-transform">download</span>
+                      Download Abstract Submission Guidelines
+                    </a>
+                  </div>
+                )}
               </div>
-              
+
               <div className="flex flex-col items-center md:items-end gap-4 flex-shrink-0 self-start md:self-center w-full md:w-auto mt-4 md:mt-0">
                 <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto flex-wrap justify-center md:justify-end">
                   {event.flyerlink && (
@@ -134,15 +137,15 @@ const AcademicsEvents = () => {
                     </a>
                   )}
                   {event.registrationlink && (
-                     <a href={event.registrationlink} target="_blank" rel="noreferrer" className="px-6 py-2 bg-yellow-500 text-primary font-bold rounded-full hover:bg-yellow-400 transition text-center shadow-md whitespace-nowrap">
-                       Register Now
-                     </a>
+                    <a href={event.registrationlink} target="_blank" rel="noreferrer" className="px-6 py-2 bg-yellow-500 text-primary font-bold rounded-full hover:bg-yellow-400 transition text-center shadow-md whitespace-nowrap">
+                      Register Now
+                    </a>
                   )}
                 </div>
-                
+
                 {/* USE TIMER DATE - fallback to standard date if missing */}
                 <div className="mt-1">
-                   <CountdownTimer targetDate={event.timerdate || event.date} />
+                  <CountdownTimer targetDate={event.timerdate || event.date} />
                 </div>
               </div>
             </motion.div>
