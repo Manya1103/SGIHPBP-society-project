@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
-import PaymentQR from '../assets/payment-qr.png';
+import PaymentQR from '../assets/qrcode.jpg';
 
 const MembershipRegistration = () => {
   // State to toggle between Registration and Status Check
@@ -292,12 +292,14 @@ const MembershipRegistration = () => {
 
                 <div className="bg-white dark:bg-gray-600 p-5 rounded-lg shadow-sm border border-gray-200 dark:border-gray-500 text-center">
                   <h4 className="font-bold text-lg mb-3 text-primary dark:text-white border-b pb-2 text-left">Scan QR to Pay</h4>
-                  <img 
-                    src={PaymentQR} 
-                    alt="Payment QR Code" 
-                    className="w-40 h-40 mx-auto object-contain border rounded-lg mb-2"
-                    onError={(e) => {e.target.style.display='none'; e.target.parentNode.innerHTML+='<p class="text-red-500 text-xs">QR Code image not found</p>'}}
-                  />
+                  <a href={PaymentQR} target="_blank" rel="noopener noreferrer" className="w-full block">
+                    <img 
+                      src={PaymentQR} 
+                      alt="Payment QR Code" 
+                      className="w-full h-auto mx-auto object-contain border rounded-lg mb-2"
+                      onError={(e) => {e.target.style.display='none'; e.target.parentNode.innerHTML+='<p class="text-red-500 text-xs">QR Code image not found</p>'}}
+                    />
+                  </a>
                   <p className="text-xs text-gray-500 dark:text-gray-300">Accepts UPI, GPay, Paytm</p>
                 </div>
               </div>

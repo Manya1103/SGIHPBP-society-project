@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import SEO from '../components/SEO';
-import PaymentQR from '../assets/payment-qr.png';
+import PaymentQR from '../assets/qrcode.jpg';
 
 const EventRegistration = () => {
   const location = useLocation();
@@ -244,8 +244,10 @@ const EventRegistration = () => {
                 <p><strong>Branch:</strong> Dr. RML Hospital, New Delhi</p>
               </div>
               <div className="flex flex-col items-center pt-2 border-t">
-                <img src={PaymentQR} className="w-32 h-32 border rounded mb-1" alt="QR Code" />
-                <p className="text-xs font-bold text-primary dark:text-white">Scan to Pay</p>
+                <a href={PaymentQR} target="_blank" rel="noopener noreferrer" className="w-full block">
+                  <img src={PaymentQR} className="w-full h-auto border rounded mb-1" alt="QR Code" />
+                </a>
+                <p className="text-xs font-bold text-primary dark:text-white">Scan to Pay (Click to enlarge)</p>
               </div>
             </div>
           </div>
