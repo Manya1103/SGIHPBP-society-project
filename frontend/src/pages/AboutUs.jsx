@@ -3,20 +3,20 @@ import SEO from '../components/SEO';
 
 const AboutUs = () => {
   return (
-    <motion.main 
+    <motion.main
       className="container mx-auto px-6 py-12 md:py-20"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <SEO 
-        title="About Us" 
+      <SEO
+        title="About Us"
         description="Learn about the mission, goals, and guiding principles of the Society of Gastrointestinal & Hepato-Pancreatobiliary Pathologists of India."
         keywords="about SGIHPBP, pathology mission, medical society goals"
       />
       {/* Page Header */}
       <div className="text-center mb-16">
-        <motion.h1 
+        <motion.h1
           className="text-4xl md:text-5xl font-bold font-display text-accent-blue dark:text-white mb-4"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -24,7 +24,7 @@ const AboutUs = () => {
         >
           About Us
         </motion.h1>
-        <motion.p 
+        <motion.p
           className="max-w-3xl mx-auto text-lg text-gray-600 dark:text-gray-400"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -39,7 +39,7 @@ const AboutUs = () => {
       <div className="space-y-12">
 
         {/* First Row: Mission & Role */}
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-12"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -52,7 +52,7 @@ const AboutUs = () => {
               Our Mission
             </h2>
             <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed text-justify">
-             Our mission is to advance the standards of education, training, and research in Gastrointestinal and Hepatobiliary pathology across India. We are dedicated to establishing institutions and organizing comprehensive programs such as continuous medical education, workshops, and conferences led by experts in the field. By fostering collaboration among healthcare professionals, encouraging multi-institutional research, and recognizing academic excellence, we strive to provide outstanding care and support for both practitioners and patients. We are also committed to promoting public education and awareness, including the integration of wellness practices like Yoga, to benefit the broader community.
+              Our mission is to advance the standards of education, training, and research in Gastrointestinal and Hepatobiliary pathology across India. We are dedicated to establishing institutions and organizing comprehensive programs such as continuous medical education, workshops, and conferences led by experts in the field. By fostering collaboration among healthcare professionals, encouraging multi-institutional research, and recognizing academic excellence, we strive to provide outstanding care and support for both practitioners and patients. We are also committed to promoting public education and awareness, including the integration of wellness practices like Yoga, to benefit the broader community.
             </p>
           </div>
 
@@ -75,7 +75,7 @@ const AboutUs = () => {
         </motion.div>
 
         {/* Second Row: Objectives & Vision */}
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-12"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -88,10 +88,10 @@ const AboutUs = () => {
               Our Vision
             </h2>
             <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed text-justify">
-             Our vision is to create a future where knowledge and understanding of Gastrointestinal and Hepatobiliary disorders are widespread, and where patients receive the highest quality care through a well-trained and informed network of professionals. We aim to build strong collaborations with national and international organizations, facilitate innovative research, and develop infrastructure to support our objectives. By nurturing emerging talents and continuously improving educational standards, we aspire to be a leading force in enhancing healthcare outcomes and supporting communities during times of need.
+              Our vision is to create a future where knowledge and understanding of Gastrointestinal and Hepatobiliary disorders are widespread, and where patients receive the highest quality care through a well-trained and informed network of professionals. We aim to build strong collaborations with national and international organizations, facilitate innovative research, and develop infrastructure to support our objectives. By nurturing emerging talents and continuously improving educational standards, we aspire to be a leading force in enhancing healthcare outcomes and supporting communities during times of need.
             </p>
           </div>
-          
+
           {/* Our Constitution */}
           <div className="bg-accent-blue dark:bg-secondary-dark p-8 rounded-lg shadow-sm h-full flex flex-col">
             <h2 className="text-3xl font-bold font-display text-white mb-4">
@@ -104,8 +104,9 @@ const AboutUs = () => {
               members to familiarize themselves with this important document.
             </p>
             &nbsp;
-            <motion.a 
-              href="/constitution_of_society.pdf" 
+            <motion.a
+              // href="/constitution_of_society.pdf" 
+              href="/constitution.pdf"
               download="SGIHPBP's_Constitution.pdf"
               className="inline-flex items-center justify-center px-8 py-3 text-accent-blue font-bold rounded-md bg-[#D4AF37] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background-dark mt-auto"
               whileHover={{ scale: 1.05, y: -2 }}
